@@ -53,14 +53,10 @@
 
   > a {
     text-decoration: none;
+    cursor: pointer;
 
     &:hover {
       text-decoration: underline;
     }
   }
-}
-
-.accented {
-  fill: var(--accent-menu);
-  transition: fill 0.3s, background 0.15s;
 }

@@ -1,0 +1,4 @@
+.accented {
+  fill: var(--accent-menu);
+  transition: fill 0.3s, background 0.15s;
+}
