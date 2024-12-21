@@ -1,0 +1,11 @@
+.container {
+  background-color: var(--main-bg);
+  border-radius: var(--main-radius);
+
+  width: 90vw;
+  height: 90vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

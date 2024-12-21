@@ -1,0 +1,15 @@
+:root {
+  --accent-color: #1bb955;
+  --accent-light: #16e261;
+  --accent-dark: #1b9c4a;
+
+  --accent-menu: var(--accent-color);
+
+  --page-bg: #262524;
+
+  --main-bg: #2d404b;
+  --main-radius: 10px;
+
+  --radius-big: 10px;
+  --radius-small: 3px;
+}
