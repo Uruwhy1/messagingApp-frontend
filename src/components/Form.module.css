@@ -68,8 +68,6 @@
   }
 
   a {
-    font-weight: 600;
-
     cursor: pointer;
     &:hover {
       text-decoration: underline;

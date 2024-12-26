@@ -21,6 +21,8 @@
 
     transition: fill 1s;
   }
+
+  position: relative;
 }
 
 .buttons {

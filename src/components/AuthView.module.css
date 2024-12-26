@@ -15,6 +15,23 @@
   }
 }
 
+.close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+
+  color: #fff;
+  background-color: transparent;
+  border: none;
+
+  cursor: pointer;
+
+  transition: color 0.15s;
+  &:hover {
+    color: var(--accent-light);
+  }
+}
+
 .left {
   svg {
     height: fit-content;
