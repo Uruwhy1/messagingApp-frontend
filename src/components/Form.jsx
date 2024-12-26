@@ -2,18 +2,34 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import styles from "./Form.module.css";
 import { KeyRound, Mail, PenTool } from "lucide-react";
+import { useWebSocket } from "../contexts/WebSocketContext";
 
 const Form = ({ mode, setView }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  const handleSubmit = () => {
-    alert("Xd");
+  const { fetchData } = useWebSocket();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (mode === "sign") {
+      const data = fetchData("/users/create", "POST", {
+        name: name,
+        email: email,
+        password: password,
+      });
+      if (data) setView("login");
+    } else {
+      fetchData("/users/login", "POST", {
+        email: email,
+        password: password,
+      });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={(e) => handleSubmit(e)} className={styles.form}>
       <div>
         {mode === "sign" && (
           <div className={styles.inputGroup}>
@@ -56,6 +72,7 @@ const Form = ({ mode, setView }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
+            minLength={6}
             required
           />
         </div>
