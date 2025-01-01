@@ -4,11 +4,11 @@ import Login from "./components/Login";
 import { useWebSocket } from "./contexts/WebSocketContext";
 
 function App() {
-  const { user, loading } = useWebSocket();
+  const { user, loading, loadingFade } = useWebSocket();
 
   return (
     <div className={styles.container}>
-      {loading && <Loading />}
+      {loading && <Loading loadingFade={loadingFade} />}
       {user && <div>xd</div>}
       {!user && <Login />}
     </div>

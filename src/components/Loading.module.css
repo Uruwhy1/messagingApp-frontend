@@ -16,10 +16,16 @@
   font-weight: 600;
   color: #fff;
   background-color: #0a1014;
+
+  transition: opacity 500ms;
 }
 
 .svg {
   animation: spin 1s infinite linear;
+}
+
+.fading {
+  opacity: 0;
 }
 
 @keyframes spin {

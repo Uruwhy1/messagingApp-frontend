@@ -7,6 +7,7 @@ export function WebSocketProvider({ children }) {
   const [socket, setSocket] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loadingFade, setLoadingFade] = useState(false);
 
   const createWebSocket = (userId) => {
     const ws = new WebSocket(`ws://localhost:3000?userId=${userId}`);
@@ -68,9 +69,11 @@ export function WebSocketProvider({ children }) {
         console.log("No active session:", error.message);
       }
       setTimeout(() => {
-        console.log("Xd");
+        setLoadingFade(true);
+      }, 300);
+      setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 600);
     };
     checkSession();
   }, []);
@@ -88,6 +91,7 @@ export function WebSocketProvider({ children }) {
     socket,
     user,
     loading,
+    loadingFade,
     fetchData,
   };
 
