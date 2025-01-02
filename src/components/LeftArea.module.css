@@ -1,0 +1,7 @@
+.container {
+  background-color: #111b21;
+  color: #fff;
+
+  height: 100%;
+  display: flex;
+}

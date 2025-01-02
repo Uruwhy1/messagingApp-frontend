@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import styles from "./ConversationList.module.css";
 import { useWebSocket } from "../contexts/WebSocketContext";
 
 const ConversationList = () => {
@@ -21,16 +20,7 @@ const ConversationList = () => {
 
     getConversations();
   }, []);
-
-  useEffect(() => {
-    console.log(conversations);
-  }, [conversations]);
-
-  return (
-    <div className={styles.container}>
-      {conversations ? conversations.length : "xd"}
-    </div>
-  );
+  return <div>conveeeeeeeeers</div>;
 };
 
 export default ConversationList;
