@@ -1,6 +1,7 @@
 import styles from "./App.module.css";
 import Loading from "./components/Loading";
 import Login from "./components/Login";
+import MainView from "./components/MainView";
 import { useWebSocket } from "./contexts/WebSocketContext";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
   return (
     <div className={styles.container}>
       {loading && <Loading loadingFade={loadingFade} />}
-      {user && <div>xd</div>}
+      {user && <MainView />}
       {!user && <Login />}
     </div>
   );

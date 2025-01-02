@@ -20,16 +20,20 @@ export function WebSocketProvider({ children }) {
 
   const fetchData = async (url, method = "POST", body = {}) => {
     try {
-      const res = await fetch(`http://localhost:3000${url}`, {
+      const options = {
         method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
         credentials: "include",
-      });
+      };
+
+      if (method !== "GET") {
+        options.body = JSON.stringify(body);
+      }
+
+      const res = await fetch(`http://localhost:3000${url}`, options);
       const data = await res.json();
-      console.log(data);
 
       if (url === "/users/login" && data.user) {
         setUser(data.user);
@@ -63,6 +67,7 @@ export function WebSocketProvider({ children }) {
         const data = await res.json();
         if (data.user) {
           setUser(data.user);
+          console.log(data.user);
           createWebSocket(data.user.id);
         }
       } catch (error) {

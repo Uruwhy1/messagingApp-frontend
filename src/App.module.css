@@ -12,3 +12,12 @@
   position: relative;
   overflow: hidden;
 }
+
+@media screen and (max-width: 1000px) {
+  .container {
+    width: 100vw;
+    height: 100vh;
+
+    border-radius: 0;
+  }
+}
