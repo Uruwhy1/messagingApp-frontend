@@ -1,5 +1,5 @@
 .container {
-  background-color: #111b21;
+  background-color: var(--left-bg);
   color: #fff;
 
   height: 100%;

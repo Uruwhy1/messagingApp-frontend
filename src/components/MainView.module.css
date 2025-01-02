@@ -3,5 +3,5 @@
   height: 100%;
 
   display: grid;
-  grid-template-columns: 450px auto;
+  grid-template-columns: var(--left-width) auto;
 }

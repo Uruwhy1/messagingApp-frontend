@@ -15,9 +15,9 @@
   font-size: 2.5rem;
   font-weight: 600;
   color: #fff;
-  background-color: #0a1014;
+  background-color: var(--loading-bg);
 
-  transition: opacity 500ms;
+  transition: opacity 300ms;
 }
 
 .svg {

@@ -2,14 +2,24 @@
   --accent-color: #1bb955;
   --accent-light: #16e261;
   --accent-dark: #1b9c4a;
-
   --accent-menu: var(--accent-color);
 
+  --main-radius: 10px;
+  --radius-big: 10px;
+  --radius-small: 3px;
+
+  /* --- */
+
+  --loading-bg: #0a1014;
   --page-bg: #262524;
 
   --main-bg: #26353e;
-  --main-radius: 10px;
+  --left-bg: #111b21;
+  --options-bg: #202c33;
 
-  --radius-big: 10px;
-  --radius-small: 3px;
+  /* --- */
+
+  --left-width: 450px;
+  --options-width: 65px;
+  --options-padding: 0.75rem;
 }
