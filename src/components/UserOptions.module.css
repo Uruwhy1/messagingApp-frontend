@@ -1,12 +1,63 @@
 .userContainer {
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: end;
   align-items: center;
+  gap: 1rem;
 
   padding: var(--options-padding);
   width: var(--options-width);
 
   background-color: var(--options-bg);
   border-right: 1px solid rgba(128, 128, 128, 0.251);
+}
+
+.userContainer > * {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userStuff {
+  position: relative;
+}
+
+.menuContainer {
+  position: absolute;
+  bottom: 100%;
+  background-color: var(--options-bg);
+
+  padding-bottom: 10px;
+
+  display: none;
+}
+
+.userStuff:hover .menuContainer {
+  display: block;
+}
+
+.menu {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.057);
+
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+
+  border: none;
+  background: none;
+
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  color: #fff;
 }
