@@ -1,0 +1,8 @@
+.conversationsContainer {
+  border-width: 0 1px;
+  border-style: solid;
+  border-color: rgba(128, 128, 128, 0.251);
+
+  width: 100%;
+  background-color: var(--left-bg);
+}

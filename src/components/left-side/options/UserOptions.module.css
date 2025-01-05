@@ -1,0 +1,35 @@
+.userContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  gap: 1rem;
+
+  padding: var(--options-padding);
+  width: var(--options-width);
+
+  background-color: var(--options-bg);
+  flex-shrink: 0;
+}
+
+.userContainer > * {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.themeButton {
+  background-color: transparent;
+  color: var(--options-color);
+  border: none;
+}
+
+.userStuff {
+  position: relative;
+}
+
+.userStuff:hover > div:not(:first-of-type) {
+  display: flex;
+}

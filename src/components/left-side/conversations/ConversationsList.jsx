@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useWebSocket } from "../contexts/WebSocketContext";
+import styles from "./ConversationsList.module.css";
+import { useWebSocket } from "../../../contexts/WebSocketContext";
 
 const ConversationList = () => {
   const { user, fetchData } = useWebSocket();
@@ -20,7 +21,7 @@ const ConversationList = () => {
 
     getConversations();
   }, []);
-  return <div>conveeeeeeeeers</div>;
+  return <div className={styles.conversationsContainer}>conveeeeeeeeers</div>;
 };
 
 export default ConversationList;

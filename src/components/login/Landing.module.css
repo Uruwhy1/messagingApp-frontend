@@ -8,6 +8,8 @@
   align-items: center;
   gap: 10%;
 
+  background-color: var(--landing-bg);
+
   > svg {
     width: auto;
     height: min(60%, 60vw);

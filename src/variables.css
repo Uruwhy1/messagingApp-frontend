@@ -13,13 +13,30 @@
   --loading-bg: #0a1014;
   --page-bg: #262524;
 
+  --landing-bg: #26353e;
+
   --main-bg: #26353e;
   --left-bg: #111b21;
+
   --options-bg: #202c33;
+  --options-transparent-bg: rgba(255, 255, 255, 0.057);
+
+  --options-color: #fff;
 
   /* --- */
 
   --left-width: 450px;
   --options-width: 65px;
   --options-padding: 0.75rem;
+}
+
+:root.light {
+  --page-bg: #dbd8d4;
+  --left-bg: #ffffff;
+  --main-bg: #f0f2f5;
+
+  --options-bg: #f0f2f5;
+  --options-transparent-bg: rgba(0, 0, 0, 0.106);
+
+  --options-color: #000;
 }

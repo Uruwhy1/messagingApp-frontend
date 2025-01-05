@@ -1,6 +1,6 @@
 import styles from "./LeftArea.module.css";
-import UserOptions from "./UserOptions";
-import ConversationList from "./ConversationsList";
+import UserOptions from "./options/UserOptions";
+import ConversationList from "./conversations/ConversationsList";
 
 const LeftArea = () => {
   return (

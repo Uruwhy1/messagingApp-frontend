@@ -5,3 +5,7 @@
   display: grid;
   grid-template-columns: var(--left-width) auto;
 }
+
+* {
+  transition: background 0.2s linear;
+}
