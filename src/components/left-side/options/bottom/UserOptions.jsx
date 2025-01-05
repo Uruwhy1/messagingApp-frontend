@@ -1,6 +1,6 @@
 import styles from "./UserOptions.module.css";
-import { useWebSocket } from "../../../contexts/WebSocketContext";
-import UserPicture from "../../reusable/UserPicture";
+import { useWebSocket } from "../../../../contexts/WebSocketContext";
+import UserPicture from "../../../reusable/UserPicture";
 import OptionsMenu from "./OptionsMenu";
 
 const UserOptions = () => {

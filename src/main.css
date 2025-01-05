@@ -1,5 +1,5 @@
 body {
-  background-color: var(--page-bg);
+  background-color: var(--page-bg) !important;
   font-family: system-ui;
 
   width: 100vw;

@@ -1,6 +1,6 @@
 import { LogOut } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import { useWebSocket } from "../../../contexts/WebSocketContext";
+import { useWebSocket } from "../../../../contexts/WebSocketContext";
 import styles from "./OptionsMenu.module.css";
 
 const OptionsMenu = () => {

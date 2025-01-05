@@ -75,10 +75,10 @@ export function WebSocketProvider({ children }) {
       }
       setTimeout(() => {
         setLoadingFade(true);
-      }, 300);
+      }, 400);
       setTimeout(() => {
         setLoading(false);
-      }, 600);
+      }, 900);
     };
     checkSession();
   }, []);
