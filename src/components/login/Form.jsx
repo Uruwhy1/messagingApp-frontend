@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import styles from "./Form.module.css";
 import { KeyRound, Mail, PenTool } from "lucide-react";
-import { useWebSocket } from "../contexts/WebSocketContext";
+import { useWebSocket } from "../../contexts/WebSocketContext";
 
 const Form = ({ mode, setView }) => {
   const [email, setEmail] = useState("");

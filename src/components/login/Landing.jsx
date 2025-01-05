@@ -1,7 +1,7 @@
 import { useState } from "react";
-import styles from "./Login.module.css";
+import styles from "./Landing.module.css";
 import AuthForm from "./AuthView";
-import LoginMain from "../svgs/LoginMain";
+import LoginMain from "./svgs/LoginMain";
 
 const Login = () => {
   const [view, setView] = useState(null);

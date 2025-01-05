@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styles from "./AuthView.module.css";
-import LoginMain from "../svgs/LoginMain";
+import LoginMain from "./svgs/LoginMain";
 import Form from "./Form";
 import { X } from "lucide-react";
 

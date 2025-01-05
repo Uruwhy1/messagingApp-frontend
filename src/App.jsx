@@ -1,6 +1,6 @@
 import styles from "./App.module.css";
 import Loading from "./components/Loading";
-import Login from "./components/Login";
+import Login from "./components/login/Landing";
 import MainView from "./components/MainView";
 import { useWebSocket } from "./contexts/WebSocketContext";
 
