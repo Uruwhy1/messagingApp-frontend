@@ -1,6 +1,9 @@
 .container {
-  color: #fff;
-
   height: 100%;
   display: flex;
+}
+
+.container h2 {
+  margin-left: 0.75rem;
+  margin-top: 0.75rem;
 }

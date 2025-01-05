@@ -1,24 +1,21 @@
-.profilePicture {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background-color: rgb(158, 158, 158);
-
-  border-radius: 50%;
-  overflow: hidden;
-}
-.profilePicture > * {
-  height: 70%;
-  width: 70%;
-}
-
 .full {
   height: 100%;
   width: 100%;
 
+  aspect-ratio: 1 / 1;
+
   object-fit: cover;
+}
+
+.picture {
+  aspect-ratio: 1 / 1;
+  padding: 0.5rem;
+  background-color: var(--picture-default-background);
+
+  border-radius: 50%;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

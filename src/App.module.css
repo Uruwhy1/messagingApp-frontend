@@ -1,5 +1,6 @@
 .container {
   background-color: var(--main-bg);
+  color: var(--font-color);
   border-radius: var(--main-radius);
 
   width: 90vw;

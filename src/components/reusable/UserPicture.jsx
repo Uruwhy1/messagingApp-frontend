@@ -4,11 +4,11 @@ import styles from "./UserPicture.module.css";
 
 const UserPicture = ({ user }) => {
   return (
-    <div className={styles.profilePicture}>
+    <div className={styles.picture}>
       {user.picture ? (
         <img className={styles.full} src={user.picture}></img>
       ) : (
-        <User2 strokeWidth="1.5" />
+        <User2 className={styles.default} strokeWidth="1.5" />
       )}
     </div>
   );

@@ -13,14 +13,15 @@
   --loading-bg: #0a1014;
   --page-bg: #262524;
 
+  --font-color: #fff;
+
   --landing-bg: #26353e;
 
   --main-bg: #26353e;
   --left-bg: #111b21;
+  --options-bg: var(--main-bg);
 
-  --options-bg: #202c33;
   --options-transparent-bg: rgba(255, 255, 255, 0.057);
-
   --options-color: #fff;
 
   /* --- */
@@ -28,6 +29,13 @@
   --left-width: 450px;
   --options-width: 65px;
   --options-padding: 0.75rem;
+
+  /* --- */
+  --picture-default-background: rgb(158, 158, 158);
+
+  --conversation-height: 75px;
+  --conversation-border: rgba(142, 142, 142, 0.198);
+  --conversation-hover: #202c33;
 }
 
 :root.light {
@@ -35,8 +43,12 @@
   --left-bg: #ffffff;
   --main-bg: #f0f2f5;
 
-  --options-bg: #f0f2f5;
+  --font-color: #000;
+
   --options-transparent-bg: rgba(0, 0, 0, 0.106);
 
-  --options-color: #000;
+  --picture-default-background: rgb(211, 211, 211);
+
+  --conversation-border: rgba(142, 142, 142, 0.497);
+  --conversation-hover: red;
 }
