@@ -17,10 +17,15 @@
 .searchInput {
   background-color: var(--options-transparent-bg);
   border: none;
-  border-radius: 1.5rem;
+  border-radius: 0.75rem;
 
-  margin: 0 5%;
-  padding: 0.5rem 0.75rem;
+  margin: 0 2.5%;
+  padding: 0.5rem 1.25rem;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
 }
 
 .topContainer {

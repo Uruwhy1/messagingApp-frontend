@@ -32,7 +32,7 @@ const ConversationList = () => {
     if (conversations) {
       setFilteredConversations(
         conversations.filter((conv) =>
-          conv.name.toLowerCase().includes(searchTerm.toLowerCase())
+          conv.title.toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
     }

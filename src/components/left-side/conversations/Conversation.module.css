@@ -18,7 +18,7 @@
 
 .conversationPicture {
   margin: 0.75rem;
-  height: 65%;
+  height: 60%;
 
   display: flex;
   width: auto;
@@ -36,7 +36,7 @@
 
 .conversationTitle {
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 .conversationLastMessage {
   font-size: 0.9rem;
