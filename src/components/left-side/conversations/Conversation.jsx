@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import UserPicture from "../../reusable/UserPicture";
 import styles from "./Conversation.module.css";
+import ConversationTitle from "./ConversationTitle";
 
 const Conversation = ({ object }) => {
   const formatDate = (dateString) => {
@@ -54,16 +55,27 @@ const Conversation = ({ object }) => {
       </div>
       <div className={styles.conversationDetails}>
         <div>
-          <h3 className={styles.conversationTitle}>{object.title}</h3>
+          <ConversationTitle
+            styles={styles}
+            users={object.users}
+            title={object.title}
+          />
           <p className={styles.conversationDate}>
             {formatDate(object.updatedAt)}
           </p>
         </div>
-        <p className={styles.conversationLastMessage}>
-          {object.lastMessage?.user.name.split(" ")[0]}
-          {": "}
-          {object.lastMessage?.content}
-        </p>
+        {object.lastMessage && (
+          <p className={styles.conversationLastMessage}>
+            {object.lastMessage.user.name.split(" ")[0]}
+            {": "}
+            {object.lastMessage.content}
+          </p>
+        )}{" "}
+        {!object.lastMessage && (
+          <p className={styles.conversationLastMessage}>
+            No messages sent, be the first one!
+          </p>
+        )}
       </div>
     </div>
   );
