@@ -1,13 +1,14 @@
 .conversation {
   height: var(--conversation-height);
   width: 100%;
+  max-width: calc(var(--left-width) - var(--options-width));
 
   border-bottom: 1px solid var(--conversation-border);
 
+  user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5re;
 
   cursor: pointer;
   transition: background 0.05s linear;
@@ -31,13 +32,34 @@
   flex-grow: 1;
   padding-right: 1rem;
 
-  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .conversationTitle {
   font-weight: 500;
   font-size: 1rem;
+
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+.conversationDate {
+  font-size: 0.8rem;
+  color: gray;
+}
+
 .conversationLastMessage {
   font-size: 0.9rem;
   color: gray;
