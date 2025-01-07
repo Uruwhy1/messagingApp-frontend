@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import styles from "./ConversationsList.module.css";
 import { useWebSocket } from "../../../contexts/WebSocketContext";
+import PropTypes from "prop-types";
+import styles from "./ConversationsList.module.css";
 import Conversation from "./Conversation";
 import { Ghost } from "lucide-react";
+import ViewTitle from "../ViewTitle";
 
-const ConversationList = () => {
+const ConversationList = ({ view }) => {
   const { user, fetchData } = useWebSocket();
   const [conversations, setConversations] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,16 +46,11 @@ const ConversationList = () => {
 
   return (
     <div className={styles.conversationsContainer}>
-      <div className={styles.topContainer}>
-        <h2>Chats</h2>
-        <input
-          type="text"
-          placeholder="Search conversations..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className={styles.searchInput}
-        />
-      </div>
+      <ViewTitle
+        view={view}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
       {filteredConversations && filteredConversations.length > 0 ? (
         filteredConversations.map((element) => (
           <Conversation key={element.id} object={element} />
@@ -66,6 +63,10 @@ const ConversationList = () => {
       )}
     </div>
   );
+};
+
+ConversationList.propTypes = {
+  view: PropTypes.string.isRequired,
 };
 
 export default ConversationList;

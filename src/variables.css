@@ -26,7 +26,7 @@
 
   /* --- */
 
-  --left-width: 450px;
+  --left-width: clamp(450px, 27.5vw, 600px);
   --options-width: 65px;
   --options-padding: 0.75rem;
 
