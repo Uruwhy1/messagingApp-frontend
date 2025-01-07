@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useWebSocket } from "../../../contexts/WebSocketContext";
 import PropTypes from "prop-types";
 import styles from "./ConversationsList.module.css";
-import Conversation from "./Conversation";
 import { Ghost } from "lucide-react";
+import GenericItem from "../../reusable/GenericItem";
 import ViewTitle from "../ViewTitle";
 
 const ConversationList = ({ view }) => {
@@ -53,7 +53,7 @@ const ConversationList = ({ view }) => {
       />
       {filteredConversations && filteredConversations.length > 0 ? (
         filteredConversations.map((element) => (
-          <Conversation key={element.id} object={element} />
+          <GenericItem key={element.id} object={element} type="conversation" />
         ))
       ) : (
         <div className={styles.emptyList}>

@@ -1,0 +1,71 @@
+.item {
+  height: var(--conversation-height);
+  width: 100%;
+  max-width: calc(var(--left-width) - var(--options-width));
+
+  border-bottom: 1px solid var(--conversation-border);
+
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  transition: background 0.05s linear;
+  &:hover {
+    background-color: var(--conversation-hover);
+  }
+}
+
+.itemPicture {
+  margin: 0.75rem;
+  height: 60%;
+
+  display: flex;
+  width: auto;
+  > * {
+    flex-shrink: 0;
+  }
+}
+
+.itemDetails {
+  flex-grow: 1;
+  padding-right: 1rem;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.itemTitle {
+  font-weight: 500;
+  font-size: 1rem;
+
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemDate {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.itemLastMessage,
+.itemDescription {
+  font-size: 0.9rem;
+  color: gray;
+
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

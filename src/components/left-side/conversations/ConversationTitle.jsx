@@ -23,7 +23,7 @@ const ConversationTitle = ({ styles, title, users }) => {
     }
   }, [title, users, user]);
 
-  return <h3 className={styles.conversationTitle}>{displayTitle}</h3>;
+  return <h3 className={styles.itemTitle}>{displayTitle}</h3>;
 };
 
 ConversationTitle.propTypes = {
