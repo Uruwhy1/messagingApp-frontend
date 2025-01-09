@@ -6,8 +6,10 @@ const ThemeToggle = () => {
   const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-color-scheme: light)")) {
+    if (window.matchMedia("(prefers-color-scheme: light)").matches) {
       setTheme("light");
+    } else {
+      setTheme("dark");
     }
   }, []);
 
