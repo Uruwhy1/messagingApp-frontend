@@ -5,12 +5,14 @@ import styles from "./ConversationsList.module.css";
 import { Ghost } from "lucide-react";
 import GenericItem from "../../reusable/GenericItem";
 import ViewTitle from "../ViewTitle";
+import NewConversation from "./NewConversation";
 
-const ConversationList = ({ view }) => {
+const ConversationList = ({ view, adding, setAdding }) => {
   const { user, fetchData } = useWebSocket();
+
   const [conversations, setConversations] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredConversations, setFilteredConversations] = useState(null); // Filtered list
+  const [filteredConversations, setFilteredConversations] = useState(null);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -41,15 +43,31 @@ const ConversationList = ({ view }) => {
   }, [searchTerm, conversations]);
 
   if (!conversations) {
-    return <div>No conversations available 😢</div>;
+    return (
+      <div className={styles.conversationsContainer}>
+        <ViewTitle
+          view={view}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          setAdding={setAdding}
+        />
+
+        <div className={styles.emptyList}>
+          <Ghost size={35} />
+          <p>NO CONVERSATIONS AVAILABLE</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className={styles.conversationsContainer}>
+      {adding && <NewConversation setAdding={setAdding} />}
       <ViewTitle
         view={view}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        setAdding={setAdding}
       />
       {filteredConversations && filteredConversations.length > 0 ? (
         filteredConversations.map((element) => (
@@ -67,6 +85,8 @@ const ConversationList = ({ view }) => {
 
 ConversationList.propTypes = {
   view: PropTypes.string.isRequired,
+  adding: PropTypes.bool.isRequired,
+  setAdding: PropTypes.func.isRequired,
 };
 
 export default ConversationList;

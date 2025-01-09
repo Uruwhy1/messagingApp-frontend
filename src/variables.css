@@ -8,6 +8,8 @@
   --radius-big: 10px;
   --radius-small: 3px;
 
+  --sliding-view-transition: 0.75s;
+
   /* --- */
 
   --loading-bg: #0a1014;

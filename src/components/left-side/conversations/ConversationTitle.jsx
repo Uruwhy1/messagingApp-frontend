@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useWebSocket } from "../../../contexts/WebSocketContext";
 
-const ConversationTitle = ({ styles, title, users }) => {
+const ConversationTitle = ({ styles, title, users}) => {
   const { user } = useWebSocket();
   const [displayTitle, setDisplayTitle] = useState("");
 

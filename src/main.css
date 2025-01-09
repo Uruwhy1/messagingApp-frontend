@@ -9,3 +9,29 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+/* for the hidden views that slide in */
+
+.show {
+  position: absolute;
+
+  z-index: 1;
+  animation: moveIn var(--sliding-view-transition) 1 ease-out;
+}
+
+.hide {
+  position: absolute;
+  z-index: 1;
+
+  transform: translateX(calc(var(--left-width) * -1));
+  transition: transform var(--sliding-view-transition) ease-in;
+}
+
+@keyframes moveIn {
+  from {
+    transform: translateX(calc(var(--left-width) * -1));
+  }
+  to {
+    transform: translateX(0);
+  }
+}

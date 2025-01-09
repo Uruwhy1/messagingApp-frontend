@@ -6,6 +6,7 @@
   width: 100%;
   background-color: var(--left-bg);
 
+  position: relative; /* for the hidden stuff */
   display: flex;
   flex-direction: column;
 

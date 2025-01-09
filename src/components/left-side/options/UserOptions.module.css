@@ -10,6 +10,8 @@
 
   background-color: var(--options-bg);
   flex-shrink: 0;
+
+  z-index: 2;
 }
 
 .userContainer > * {
