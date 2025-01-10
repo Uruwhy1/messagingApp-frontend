@@ -3,7 +3,7 @@ import styles from "./GenericItem.module.css";
 import UserPicture from "./UserPicture";
 import ConversationTitle from "../left-side/conversations/ConversationTitle";
 
-const GenericItem = ({ object, type }) => {
+const GenericItem = ({ object, type, onClick, isSelected }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -49,7 +49,16 @@ const GenericItem = ({ object, type }) => {
   };
 
   return (
-    <div className={styles.item}>
+    <div
+      onClick={onClick}
+      className={`${styles.item} ${
+        isSelected
+          ? type === "user"
+            ? styles.selectedUser
+            : styles.selectedConver
+          : ""
+      }`}
+    >
       <div className={styles.itemPicture}>
         <UserPicture user={object} />
       </div>
@@ -92,6 +101,8 @@ const GenericItem = ({ object, type }) => {
 GenericItem.propTypes = {
   object: PropTypes.object.isRequired,
   type: PropTypes.oneOf(["conversation", "user"]).isRequired,
+  onClick: PropTypes.func.isRequired,
+  isSelected: PropTypes.bool.isRequired,
 };
 
 export default GenericItem;

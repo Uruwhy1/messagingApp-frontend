@@ -14,6 +14,7 @@ const ConversationList = ({ view, adding, setAdding }) => {
   const [conversations, setConversations] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredConversations, setFilteredConversations] = useState(null);
+  const [currentlySelected, setCurrentlySelected] = useState(null);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -42,6 +43,10 @@ const ConversationList = ({ view, adding, setAdding }) => {
       );
     }
   }, [searchTerm, conversations]);
+
+  const handleItemClick = (id) => {
+    setCurrentlySelected((prevSelected) => (prevSelected === id ? null : id));
+  };
 
   if (!conversations) {
     return (
@@ -72,7 +77,13 @@ const ConversationList = ({ view, adding, setAdding }) => {
       />
       {filteredConversations && filteredConversations.length > 0 ? (
         filteredConversations.map((element) => (
-          <GenericItem key={element.id} object={element} type="conversation" />
+          <GenericItem
+            key={element.id}
+            object={element}
+            type="conversation"
+            onClick={() => handleItemClick(element.id)}
+            isSelected={currentlySelected === element.id}
+          />
         ))
       ) : (
         <Empty text="NO CONVERSATION FOUND" />

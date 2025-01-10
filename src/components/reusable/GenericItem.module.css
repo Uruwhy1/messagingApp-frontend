@@ -69,3 +69,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.selectedUser,
+.selectedUser:hover {
+  background-color: #26b8cc;
+}
+
+.selectedConver,
+.selectedConver:hover {
+  background-color: red;
+
+  &:hover {
+    background-color: red;
+  }
+}

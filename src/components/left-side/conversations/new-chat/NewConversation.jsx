@@ -11,6 +11,7 @@ const NewConversation = ({ setAdding }) => {
   const [friends, setFriends] = useState(null);
   const [filteredFriends, setFilteredFriends] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedIds, setSelectedIds] = useState([]);
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
@@ -25,8 +26,7 @@ const NewConversation = ({ setAdding }) => {
     };
 
     if (user?.id) getFriends();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, fetchData]);
 
   useEffect(() => {
     if (friends) {
@@ -45,6 +45,18 @@ const NewConversation = ({ setAdding }) => {
     }, 350); // this should match var(--sliding-view-transition)
   };
 
+  const handleItemClick = (id) => {
+    setSelectedIds((prevSelectedIds) =>
+      prevSelectedIds.includes(id)
+        ? prevSelectedIds.filter((selectedId) => selectedId !== id)
+        : [...prevSelectedIds, id]
+    );
+  };
+
+  const handleCreateClick = () => {
+    alert(`Creating chat with IDs: ${selectedIds.join(", ")}`);
+  };
+
   return (
     <div
       className={`${exiting ? "hide" : "show"} ${
@@ -58,12 +70,18 @@ const NewConversation = ({ setAdding }) => {
       />
       {friends && filteredFriends.length > 0 ? (
         filteredFriends.map((friend) => (
-          <GenericItem key={friend.id} object={friend} type="user" />
+          <GenericItem
+            key={friend.id}
+            object={friend}
+            type="user"
+            onClick={() => handleItemClick(friend.id)}
+            isSelected={selectedIds.includes(friend.id)}
+          />
         ))
       ) : (
         <Empty text={"NO FRIENDS FOUND"} />
       )}
-      <button>Create</button>
+      <button onClick={handleCreateClick}>Create</button>
     </div>
   );
 };
