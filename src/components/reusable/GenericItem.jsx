@@ -2,8 +2,11 @@ import PropTypes from "prop-types";
 import styles from "./GenericItem.module.css";
 import UserPicture from "./UserPicture";
 import ConversationTitle from "../left-side/conversations/ConversationTitle";
+import { useWebSocket } from "../../contexts/WebSocketContext";
 
 const GenericItem = ({ object, type, onClick, isSelected }) => {
+  const { user } = useWebSocket();
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -48,6 +51,20 @@ const GenericItem = ({ object, type, onClick, isSelected }) => {
     });
   };
 
+  const getPicture = () => {
+    console.log(object);
+    if (object.picture) return object.picture;
+
+    if (object.users?.length === 2) {
+      const otherUser = object.users.find((u) => u.id !== user.id);
+      return otherUser?.picture || null;
+    }
+
+    return null;
+  };
+
+  const converPicture = getPicture();
+
   return (
     <div
       onClick={onClick}
@@ -60,7 +77,7 @@ const GenericItem = ({ object, type, onClick, isSelected }) => {
       }`}
     >
       <div className={styles.itemPicture}>
-        <UserPicture user={object} />
+        <UserPicture user={{ picture: converPicture }} />
       </div>
       <div className={styles.itemDetails}>
         {type === "conversation" && (
