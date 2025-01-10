@@ -13,18 +13,4 @@
   }
 }
 
-.emptyList {
-  margin-top: 2rem;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
-
-  flex-grow: 1;
-
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}

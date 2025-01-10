@@ -6,6 +6,7 @@ import { Ghost } from "lucide-react";
 import GenericItem from "../../reusable/GenericItem";
 import ViewTitle from "../ViewTitle";
 import NewConversation from "./new-chat/NewConversation";
+import Empty from "../../reusable/Empty";
 
 const ConversationList = ({ view, adding, setAdding }) => {
   const { user, fetchData } = useWebSocket();
@@ -74,10 +75,7 @@ const ConversationList = ({ view, adding, setAdding }) => {
           <GenericItem key={element.id} object={element} type="conversation" />
         ))
       ) : (
-        <div className={styles.emptyList}>
-          <Ghost size={35} />
-          <p>NO CONVERSATIONS FOUND</p>
-        </div>
+        <Empty text="NO CONVERSATION FOUND" />
       )}
     </div>
   );

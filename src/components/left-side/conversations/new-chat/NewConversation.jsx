@@ -4,7 +4,7 @@ import styles from "./NewConversation.module.css";
 import { useWebSocket } from "../../../../contexts/WebSocketContext";
 import GenericItem from "../../../reusable/GenericItem";
 import NewConversationTitle from "./NewConversationTitle";
-import { Ghost } from "lucide-react";
+import Empty from "../../../reusable/Empty";
 
 const NewConversation = ({ setAdding }) => {
   const { user, fetchData } = useWebSocket();
@@ -61,11 +61,9 @@ const NewConversation = ({ setAdding }) => {
           <GenericItem key={friend.id} object={friend} type="user" />
         ))
       ) : (
-        <div className={styles.emptyList}>
-          <Ghost size={35} />
-          <p>NO FRIENDS FOUND</p>
-        </div>
+        <Empty text={"NO FRIENDS FOUND"} />
       )}
+      <button>Create</button>
     </div>
   );
 };
