@@ -16,7 +16,7 @@ body {
   position: absolute;
 
   z-index: 1;
-  animation: moveIn var(--sliding-view-transition) 1 ease-out;
+  animation: moveIn var(--sliding-view-transition) 1 ease-in-out;
 }
 
 .hide {
@@ -24,7 +24,7 @@ body {
   z-index: 1;
 
   transform: translateX(calc(var(--left-width) * -1));
-  transition: transform var(--sliding-view-transition) ease-in;
+  transition: transform var(--sliding-view-transition) ease-in-out;
 }
 
 @keyframes moveIn {

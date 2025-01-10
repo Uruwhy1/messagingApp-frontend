@@ -5,7 +5,7 @@ import styles from "./ConversationsList.module.css";
 import { Ghost } from "lucide-react";
 import GenericItem from "../../reusable/GenericItem";
 import ViewTitle from "../ViewTitle";
-import NewConversation from "./NewConversation";
+import NewConversation from "./new-chat/NewConversation";
 
 const ConversationList = ({ view, adding, setAdding }) => {
   const { user, fetchData } = useWebSocket();
