@@ -5,6 +5,7 @@ import { useWebSocket } from "../../../../contexts/WebSocketContext";
 import GenericItem from "../../../reusable/GenericItem";
 import NewConversationTitle from "./NewConversationTitle";
 import Empty from "../../../reusable/Empty";
+import PrimaryButton from "../../../reusable/PrimaryButton";
 
 const NewConversation = ({ setAdding }) => {
   const { user, fetchData } = useWebSocket();
@@ -53,8 +54,21 @@ const NewConversation = ({ setAdding }) => {
     );
   };
 
-  const handleCreateClick = () => {
-    alert(`Creating chat with IDs: ${selectedIds.join(", ")}`);
+  const handleCreateClick = async () => {
+    selectedIds.push(user.id);
+    let name = "";
+    if (selectedIds.length !== 2) {
+      name = prompt("name:");
+    }
+
+    await fetchData("/conversations/create", "POST", {
+      adminId: user.id,
+      userIds: selectedIds,
+      name: name,
+    });
+
+    selectedIds.pop();
+    location.reload();
   };
 
   return (
@@ -81,7 +95,7 @@ const NewConversation = ({ setAdding }) => {
       ) : (
         <Empty text={"NO FRIENDS FOUND"} />
       )}
-      <button onClick={handleCreateClick}>Create</button>
+      <PrimaryButton text="CREATE" func={handleCreateClick} />
     </div>
   );
 };

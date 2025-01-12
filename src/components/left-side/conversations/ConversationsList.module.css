@@ -4,13 +4,13 @@
   border-color: rgba(128, 128, 128, 0.251);
 
   width: 100%;
+  max-height: 100vh;
   background-color: var(--left-bg);
 
   position: relative; /* for the hidden stuff */
+  overflow: scroll;
 
   > div {
     flex-shrink: 0;
   }
 }
-
-

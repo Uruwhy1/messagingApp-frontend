@@ -2,6 +2,8 @@
   background-color: var(--left-bg);
   width: 100%;
   height: 100%;
+
+  overflow: scroll;
 }
 
 .emptyList {
@@ -19,4 +21,10 @@
   font-size: 1.1rem;
   font-weight: 600;
   text-transform: uppercase;
+}
+
+.newConversationContainer > button {
+  display: block;
+  margin: auto;
+  margin-top: 1.5rem;
 }

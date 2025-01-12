@@ -72,14 +72,10 @@
 
 .selectedUser,
 .selectedUser:hover {
-  background-color: #26b8cc;
+  background-color: var(--card-selected);
 }
 
 .selectedConver,
 .selectedConver:hover {
-  background-color: red;
-
-  &:hover {
-    background-color: red;
-  }
+  background-color: var(--card-selected);
 }

@@ -38,6 +38,12 @@
   --conversation-height: 75px;
   --conversation-border: rgba(142, 142, 142, 0.198);
   --conversation-hover: #202c33;
+  --card-selected: rgba(128, 128, 128, 0.186);
+
+  /* --- */
+
+  --primary-button-bg: #000;
+  --primary-button-color: #fff;
 }
 
 :root.light {

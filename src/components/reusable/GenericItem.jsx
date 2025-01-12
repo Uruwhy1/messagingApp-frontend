@@ -52,7 +52,6 @@ const GenericItem = ({ object, type, onClick, isSelected }) => {
   };
 
   const getPicture = () => {
-    console.log(object);
     if (object.picture) return object.picture;
 
     if (object.users?.length === 2) {

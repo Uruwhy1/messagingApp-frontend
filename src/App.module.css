@@ -14,10 +14,6 @@
   overflow: hidden;
 }
 
-* {
-  transition: background 0.2s linear;
-}
-
 @media screen and (max-width: 1000px) {
   .container {
     width: 100vw;
