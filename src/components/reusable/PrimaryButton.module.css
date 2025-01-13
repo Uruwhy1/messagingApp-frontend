@@ -1,10 +1,15 @@
 .primaryButton {
-  padding: 0.25rem 2rem;
-  font-weight: 600;
-  cursor: pointer;
+  width: 56px;
+  height: 56px;
 
   border: none;
-  border-radius: 5px;
-  background-color: var(--primary-button-bg);
-  color: var(--primary-button-color);
+  border-radius: 50%;
+
+  background: var(--accent-light);
+  color: #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }

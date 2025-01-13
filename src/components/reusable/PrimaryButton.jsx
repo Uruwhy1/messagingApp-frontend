@@ -1,15 +1,15 @@
+import { Check } from "lucide-react";
 import styles from "./PrimaryButton.module.css";
 import PropTypes from "prop-types";
-const PrimaryButton = ({ text, func }) => {
+const PrimaryButton = ({ func }) => {
   return (
     <button className={styles.primaryButton} onClick={func ? func : ""}>
-      {text}
+      <Check strokeWidth={3} />
     </button>
   );
 };
 
 PrimaryButton.propTypes = {
-  text: PropTypes.string.isRequired,
   func: PropTypes.func.isRequired,
 };
 

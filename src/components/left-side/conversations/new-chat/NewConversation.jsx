@@ -7,6 +7,8 @@ import NewConversationTitle from "./NewConversationTitle";
 import Empty from "../../../reusable/Empty";
 import PrimaryButton from "../../../reusable/PrimaryButton";
 
+import ConversationDetailsPrompt from "./ConversationDetailsPrompt";
+
 const NewConversation = ({ setAdding, setConversations }) => {
   const { user, fetchData } = useWebSocket();
   const [friends, setFriends] = useState(null);
@@ -14,6 +16,7 @@ const NewConversation = ({ setAdding, setConversations }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [exiting, setExiting] = useState(false);
+  const [showDetailsPrompt, setShowDetailsPrompt] = useState(false);
 
   useEffect(() => {
     const getFriends = async () => {
@@ -43,7 +46,7 @@ const NewConversation = ({ setAdding, setConversations }) => {
     setExiting(true);
     setTimeout(() => {
       setAdding(false);
-    }, 350); // this should match var(--sliding-view-transition)
+    }, 350); // Match var(--sliding-view-transition)
   };
 
   const handleItemClick = (id) => {
@@ -55,30 +58,30 @@ const NewConversation = ({ setAdding, setConversations }) => {
   };
 
   const handleCreateClick = async () => {
-    try {
-      const idsToSubmit = [...selectedIds, user.id];
-      let name = "";
-
-      if (idsToSubmit.length !== 2) {
-        name = prompt("Please enter a name for the conversation:");
-      }
-
+    if (selectedIds.length > 1) {
+      setShowDetailsPrompt(true);
+    } else {
       const response = await fetchData("/conversations/create", "POST", {
         adminId: user.id,
-        userIds: idsToSubmit,
-        name,
+        userIds: [...selectedIds, user.id],
       });
 
-      if (response) {
-        console.log("Conversation created successfully:", response);
-        setConversations((prevConversations) => [
-          response,
-          ...prevConversations,
-        ]);
-        setAdding(false);
-      } else {
-        console.error("Failed to create conversation. No response received.");
-      }
+      setConversations((prev) => [response, ...prev]);
+      setAdding(false);
+    }
+  };
+
+  const handleDetailsSubmit = async (details) => {
+    try {
+      const response = await fetchData("/conversations/create", "POST", {
+        adminId: user.id,
+        userIds: [...selectedIds, user.id],
+        name: details.name,
+        icon: details.icon,
+      });
+
+      setConversations((prev) => [response, ...prev]);
+      setAdding(false);
     } catch (error) {
       console.error("Error creating conversation:", error);
     }
@@ -90,25 +93,34 @@ const NewConversation = ({ setAdding, setConversations }) => {
         styles.newConversationContainer
       }`}
     >
-      <NewConversationTitle
-        exitFunc={handleExitClick}
-        setSearchTerm={setSearchTerm}
-        searchTerm={searchTerm}
-      />
-      {friends && filteredFriends.length > 0 ? (
-        filteredFriends.map((friend) => (
-          <GenericItem
-            key={friend.id}
-            object={friend}
-            type="user"
-            onClick={() => handleItemClick(friend.id)}
-            isSelected={selectedIds.includes(friend.id)}
-          />
-        ))
+      {showDetailsPrompt ? (
+        <ConversationDetailsPrompt
+          onSubmit={handleDetailsSubmit}
+          onCancel={() => setShowDetailsPrompt(false)}
+        />
       ) : (
-        <Empty text={"NO FRIENDS FOUND"} />
+        <>
+          <NewConversationTitle
+            exitFunc={handleExitClick}
+            setSearchTerm={setSearchTerm}
+            searchTerm={searchTerm}
+          />
+          {friends && filteredFriends.length > 0 ? (
+            filteredFriends.map((friend) => (
+              <GenericItem
+                key={friend.id}
+                object={friend}
+                type="user"
+                onClick={() => handleItemClick(friend.id)}
+                isSelected={selectedIds.includes(friend.id)}
+              />
+            ))
+          ) : (
+            <Empty text={"NO FRIENDS FOUND"} />
+          )}
+          <PrimaryButton text="CREATE" func={handleCreateClick} />
+        </>
       )}
-      <PrimaryButton text="CREATE" func={handleCreateClick} />
     </div>
   );
 };
