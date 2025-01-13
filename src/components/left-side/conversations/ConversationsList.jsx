@@ -71,7 +71,12 @@ const ConversationList = ({ view, adding, setAdding }) => {
       className={styles.conversationsContainer}
       style={adding ? { overflow: "hidden" } : {}}
     >
-      {adding && <NewConversation setAdding={setAdding} />}
+      {adding && (
+        <NewConversation
+          setAdding={setAdding}
+          setConversations={setConversations}
+        />
+      )}
       <ViewTitle
         view={view}
         searchTerm={searchTerm}

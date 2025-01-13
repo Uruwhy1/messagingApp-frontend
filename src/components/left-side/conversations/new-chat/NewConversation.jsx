@@ -7,7 +7,7 @@ import NewConversationTitle from "./NewConversationTitle";
 import Empty from "../../../reusable/Empty";
 import PrimaryButton from "../../../reusable/PrimaryButton";
 
-const NewConversation = ({ setAdding }) => {
+const NewConversation = ({ setAdding, setConversations }) => {
   const { user, fetchData } = useWebSocket();
   const [friends, setFriends] = useState(null);
   const [filteredFriends, setFilteredFriends] = useState(null);
@@ -55,20 +55,33 @@ const NewConversation = ({ setAdding }) => {
   };
 
   const handleCreateClick = async () => {
-    selectedIds.push(user.id);
-    let name = "";
-    if (selectedIds.length !== 2) {
-      name = prompt("name:");
+    try {
+      const idsToSubmit = [...selectedIds, user.id];
+      let name = "";
+
+      if (idsToSubmit.length !== 2) {
+        name = prompt("Please enter a name for the conversation:");
+      }
+
+      const response = await fetchData("/conversations/create", "POST", {
+        adminId: user.id,
+        userIds: idsToSubmit,
+        name,
+      });
+
+      if (response) {
+        console.log("Conversation created successfully:", response);
+        setConversations((prevConversations) => [
+          response,
+          ...prevConversations,
+        ]);
+        setAdding(false);
+      } else {
+        console.error("Failed to create conversation. No response received.");
+      }
+    } catch (error) {
+      console.error("Error creating conversation:", error);
     }
-
-    await fetchData("/conversations/create", "POST", {
-      adminId: user.id,
-      userIds: selectedIds,
-      name: name,
-    });
-
-    selectedIds.pop();
-    location.reload();
   };
 
   return (
@@ -102,6 +115,7 @@ const NewConversation = ({ setAdding }) => {
 
 NewConversation.propTypes = {
   setAdding: PropTypes.func.isRequired,
+  setConversations: PropTypes.func.isRequired,
 };
 
 export default NewConversation;

@@ -35,6 +35,10 @@ export function WebSocketProvider({ children }) {
       const res = await fetch(`http://localhost:3000${url}`, options);
       const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error(data.error || "Unknown Error");
+      }
+
       if (url === "/users/login" && data.user) {
         setUser(data.user);
         createWebSocket(data.user.id);
