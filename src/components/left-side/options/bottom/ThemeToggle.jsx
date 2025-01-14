@@ -14,7 +14,6 @@ const ThemeToggle = () => {
   }, []);
 
   useEffect(() => {
-    // Set initial theme
     const root = document.documentElement;
     if (theme === "light") {
       root.classList.add("light");
@@ -26,9 +25,17 @@ const ThemeToggle = () => {
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
   };
+
+  const toggleTransition = () => {
+    const root = document.documentElement;
+    root.classList.toggle("transition");
+  };
+
   return (
     <button
       onClick={toggleTheme}
+      onMouseEnter={toggleTransition}
+      onMouseLeave={toggleTransition}
       className={styles.themeButton}
       title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >
