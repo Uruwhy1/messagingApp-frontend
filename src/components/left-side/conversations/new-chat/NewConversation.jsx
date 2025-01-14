@@ -46,7 +46,7 @@ const NewConversation = ({ setAdding, setConversations }) => {
     setExiting(true);
     setTimeout(() => {
       setAdding(false);
-    }, 350); // Match var(--sliding-view-transition)
+    }, 350); // needs to match var(--sliding-view-transition)
   };
 
   const handleItemClick = (id) => {
@@ -67,7 +67,7 @@ const NewConversation = ({ setAdding, setConversations }) => {
       });
 
       setConversations((prev) => [response, ...prev]);
-      setAdding(false);
+      handleExitClick();
     }
   };
 
@@ -77,11 +77,11 @@ const NewConversation = ({ setAdding, setConversations }) => {
         adminId: user.id,
         userIds: [...selectedIds, user.id],
         name: details.name,
-        icon: details.icon,
+        picture: details.icon,
       });
 
       setConversations((prev) => [response, ...prev]);
-      setAdding(false);
+      handleExitClick();
     } catch (error) {
       console.error("Error creating conversation:", error);
     }
