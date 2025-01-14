@@ -12,6 +12,12 @@
 
   /* --- */
 
+  --error: #272727;
+  --error-text: #eb9895;
+  --error-shadow: #de7a76;
+
+  /* --- */
+
   --loading-bg: #0a1014;
   --page-bg: #262524;
 
@@ -50,6 +56,14 @@
   --page-bg: #dbd8d4;
   --left-bg: #ffffff;
   --main-bg: #f0f2f5;
+
+  --error: rgb(255, 255, 255);
+  --error-text: #dd4540;
+  --error-shadow: #de726f;
+
+  --success: #e4f3df;
+  --success-text: #628258;
+  --success-shadow: #a9e993;
 
   --font-color: #000;
 

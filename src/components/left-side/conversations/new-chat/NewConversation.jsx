@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import styles from "./NewConversation.module.css";
 import { useWebSocket } from "../../../../contexts/WebSocketContext";
+import { usePopup } from "../../../../contexts/PopupContext";
 import GenericItem from "../../../reusable/GenericItem";
 import NewConversationTitle from "./NewConversationTitle";
 import Empty from "../../../reusable/Empty";
@@ -11,6 +12,8 @@ import ConversationDetailsPrompt from "./ConversationDetailsPrompt";
 
 const NewConversation = ({ setAdding, setConversations }) => {
   const { user, fetchData } = useWebSocket();
+  const { showPopup } = usePopup();
+
   const [friends, setFriends] = useState(null);
   const [filteredFriends, setFilteredFriends] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -61,13 +64,18 @@ const NewConversation = ({ setAdding, setConversations }) => {
     if (selectedIds.length > 1) {
       setShowDetailsPrompt(true);
     } else {
-      const response = await fetchData("/conversations/create", "POST", {
-        adminId: user.id,
-        userIds: [...selectedIds, user.id],
-      });
+      try {
+        const response = await fetchData("/conversations/create", "POST", {
+          adminId: user.id,
+          userIds: [...selectedIds, user.id],
+        });
 
-      setConversations((prev) => [response, ...prev]);
-      handleExitClick();
+        setConversations((prev) => [response, ...prev]);
+        handleExitClick();
+      } catch (error) {
+        showPopup(error.message, false);
+        console.error(error);
+      }
     }
   };
 
@@ -83,6 +91,7 @@ const NewConversation = ({ setAdding, setConversations }) => {
       setConversations((prev) => [response, ...prev]);
       handleExitClick();
     } catch (error) {
+      showPopup(error.message, false);
       console.error("Error creating conversation:", error);
     }
   };
