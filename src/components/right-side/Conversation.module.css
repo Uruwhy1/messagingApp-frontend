@@ -1,7 +1,9 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  max-height: 100%;
+
+  overflow: scroll;
 
   background-color: var(--main-bg);
   color: var(--font-color);
@@ -37,7 +39,8 @@
 .messagesContainer {
   flex: 1;
   padding: 1rem;
-  overflow-y: auto;
+  overflow-y: scroll;
+  max-height: 100%;
 
   background-color: var(--options-bg);
 
@@ -88,13 +91,60 @@
   opacity: 0.6;
 }
 
-.loading,
-.error {
+.loading {
   padding: 2rem;
   text-align: center;
   color: var(--accent-color);
 }
 
-.error {
-  color: var(--error-text);
+.inputContainer {
+  background: var(--left-bg);
+  padding: 1rem;
+  border-top: 1px solid var(--conversation-border);
+  position: sticky;
+  bottom: 0;
+}
+
+.messageForm {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.messageInput {
+  flex: 1;
+  padding: 0.75rem 1rem;
+
+  border: none;
+  border-radius: var(--main-radius);
+  background: var(--options-transparent-bg);
+
+  color: var(--font-color);
+  font-size: 1rem;
+}
+
+.messageInput:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
+}
+
+.sendButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--main-radius);
+
+  background: var(--accent-dark);
+  color: var(--primary-button-color);
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sendButton:hover {
+  background: var(--accent-color);
+}
+
+.sendButton:disabled {
+  background: var(--conversation-border);
+  cursor: not-allowed;
 }

@@ -4,7 +4,7 @@ import styles from "./MainView.module.css";
 import Conversation from "./right-side/Conversation";
 
 const MainView = () => {
-  const [currentConversation, setCurrentConversation] = useState("");
+  const [currentConversation, setCurrentConversation] = useState(null);
 
   return (
     <div className={styles.container}>
@@ -12,9 +12,7 @@ const MainView = () => {
         setCurrentConversation={setCurrentConversation}
         currentConversation={currentConversation}
       />
-      {currentConversation && (
-        <Conversation conversationId={currentConversation} />
-      )}
+      <Conversation conversationId={currentConversation} />
     </div>
   );
 };

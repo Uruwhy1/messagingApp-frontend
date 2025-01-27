@@ -1,12 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { useWebSocket } from "../../contexts/WebSocketContext";
-import styles from "./Conversation.module.css"; // CSS Module import
+import styles from "./Conversation.module.css";
 
 const Conversation = ({ conversationId }) => {
-  const { fetchData } = useWebSocket();
+  const { user, fetchData } = useWebSocket();
+
   const [isLoading, setIsLoading] = useState(true);
   const [conversation, setConversation] = useState(null);
-  const [error, setError] = useState(null);
+  const [newMessage, setNewMessage] = useState("");
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const fetchConversation = async () => {
@@ -19,13 +22,24 @@ const Conversation = ({ conversationId }) => {
         setConversation(data);
         setIsLoading(false);
       } catch (err) {
-        setError(err.message);
+        console.error(err);
         setIsLoading(false);
       }
     };
 
-    fetchConversation();
+    if (conversationId) {
+      fetchConversation();
+      console.log(conversation);
+    }
   }, [conversationId, fetchData]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [conversation?.messages]);
 
   const formatTimestamp = (dateString) => {
     const date = new Date(dateString);
@@ -38,17 +52,49 @@ const Conversation = ({ conversationId }) => {
   };
 
   const getConversationTitle = () => {
-    if (!conversation) return "";
-    return (
-      conversation.name ||
-      conversation.users.map((user) => user.user.name).join(", ")
-    );
+    const title = conversation.title;
+    const users = conversation.users;
+
+    if (!title) {
+      if (users.length === 2) {
+        const notCurrentUser = users.filter((a) => a.id !== user.id);
+        return notCurrentUser[0]?.name || "Unknown";
+      } else {
+        return users.map((u) => u.name).join(", ");
+      }
+    } else {
+      return title;
+    }
   };
 
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!newMessage.trim()) return;
+
+    try {
+      const messageData = {
+        content: newMessage.trim(),
+      };
+
+      const createdMessage = await fetchData(
+        `/conversations/${conversationId}/message`,
+        "POST",
+        messageData
+      );
+
+      setConversation((prev) => ({
+        ...prev,
+        messages: [...prev.messages, createdMessage],
+      }));
+      setNewMessage("");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (!conversationId) return <div className={styles.container}></div>;
   if (isLoading)
     return <div className={styles.loading}>Loading conversation...</div>;
-  if (error) return <div className={styles.error}>Error: {error}</div>;
-  if (!conversation) return <div>Conversation not found</div>;
 
   return (
     <div className={styles.container}>
@@ -67,8 +113,8 @@ const Conversation = ({ conversationId }) => {
         ) : (
           conversation.messages.map((message) => {
             const author = conversation.users.find(
-              (user) => user.user.id === message.authorId
-            )?.user;
+              (user) => user.id === message.authorId
+            );
 
             return (
               <div key={message.id} className={styles.messageWrapper}>
@@ -78,7 +124,7 @@ const Conversation = ({ conversationId }) => {
                       {author?.name || "Unknown"}
                     </span>
                     <span className={styles.timestamp}>
-                      {formatTimestamp(message.date)}
+                      {formatTimestamp(message.createdAt)}
                     </span>
                   </div>
                   <div className={styles.messageContent}>{message.content}</div>
@@ -87,9 +133,34 @@ const Conversation = ({ conversationId }) => {
             );
           })
         )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      <div className={styles.inputContainer}>
+        <form onSubmit={handleSendMessage} className={styles.messageForm}>
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Type a message"
+            className={styles.messageInput}
+            aria-label="Message input"
+          />
+          <button
+            type="submit"
+            className={styles.sendButton}
+            disabled={!newMessage.trim()}
+          >
+            Send
+          </button>
+        </form>
       </div>
     </div>
   );
+};
+
+Conversation.propTypes = {
+  conversationId: PropTypes.number.isRequired,
 };
 
 export default Conversation;

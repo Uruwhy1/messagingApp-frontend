@@ -24,6 +24,7 @@ export function WebSocketProvider({ children }) {
         method,
         headers: {
           "Content-Type": "application/json",
+          userid: user?.id || null,
         },
         credentials: "include",
       };
