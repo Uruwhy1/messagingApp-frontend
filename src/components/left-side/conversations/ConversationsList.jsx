@@ -8,13 +8,18 @@ import ViewTitle from "../ViewTitle";
 import NewConversation from "./new-chat/NewConversation";
 import Empty from "../../reusable/Empty";
 
-const ConversationList = ({ view, adding, setAdding }) => {
+const ConversationList = ({
+  view,
+  adding,
+  setAdding,
+  setCurrentConversation,
+  currentConversation,
+}) => {
   const { user, fetchData } = useWebSocket();
 
   const [conversations, setConversations] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredConversations, setFilteredConversations] = useState(null);
-  const [currentlySelected, setCurrentlySelected] = useState(null);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -45,7 +50,7 @@ const ConversationList = ({ view, adding, setAdding }) => {
   }, [searchTerm, conversations]);
 
   const handleItemClick = (id) => {
-    setCurrentlySelected((prevSelected) => (prevSelected === id ? null : id));
+    setCurrentConversation((prevSelected) => (prevSelected === id ? null : id));
   };
 
   if (!conversations) {
@@ -90,7 +95,7 @@ const ConversationList = ({ view, adding, setAdding }) => {
             object={element}
             type="conversation"
             onClick={() => handleItemClick(element.id)}
-            isSelected={currentlySelected === element.id}
+            isSelected={currentConversation === element.id}
           />
         ))
       ) : (
@@ -104,6 +109,8 @@ ConversationList.propTypes = {
   view: PropTypes.string.isRequired,
   adding: PropTypes.bool.isRequired,
   setAdding: PropTypes.func.isRequired,
+  setCurrentConversation: PropTypes.func.isRequired,
+  currentConversation: PropTypes.number.isRequired,
 };
 
 export default ConversationList;
