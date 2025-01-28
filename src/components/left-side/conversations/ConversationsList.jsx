@@ -15,8 +15,7 @@ const ConversationList = ({
   setCurrentConversation,
   currentConversation,
 }) => {
-  const { user, fetchData } = useWebSocket();
-
+  const { user, fetchData, socket } = useWebSocket();
   const [conversations, setConversations] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredConversations, setFilteredConversations] = useState(null);
@@ -36,8 +35,67 @@ const ConversationList = ({
     };
 
     if (user?.id) getConversations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, fetchData]);
+
+  useEffect(() => {
+    const handleWebSocketMessage = (event) => {
+      const message = JSON.parse(event.data);
+
+      switch (message.type) {
+        case "NEW_CONVERSATION":
+          handleNewConversation(message.data);
+          break;
+        case "NEW_MESSAGE":
+          handleNewMessage(message.data);
+          break;
+        default:
+          break;
+      }
+    };
+
+    if (socket) {
+      socket.addEventListener("message", handleWebSocketMessage);
+    }
+
+    return () => {
+      if (socket) {
+        socket.removeEventListener("message", handleWebSocketMessage);
+      }
+    };
+  }, [socket]);
+
+  const handleNewConversation = (newConversation) => {
+    setConversations((prev) => {
+      if (prev?.some((conv) => conv.id === newConversation.id)) return prev;
+      return [newConversation, ...(prev || [])];
+    });
+  };
+
+  const handleNewMessage = (newMessage) => {
+    const messageContent = newMessage.message;
+    setConversations((prev) => {
+      if (!prev) return prev;
+
+      return prev
+        .map((conv) => {
+          if (conv.id === newMessage.conversationId) {
+            return {
+              ...conv,
+              lastMessage: {
+                content: messageContent.content,
+                createdAt: messageContent.createdAt,
+                user: {
+                  name: messageContent.authorName || "Unknown",
+                },
+              },
+              updatedAt: messageContent.createdAt,
+            };
+          }
+          return conv;
+        })
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    });
+  };
 
   useEffect(() => {
     if (conversations) {
@@ -50,7 +108,7 @@ const ConversationList = ({
   }, [searchTerm, conversations]);
 
   const handleItemClick = (id) => {
-    setCurrentConversation((prevSelected) => (prevSelected === id ? null : id));
+    setCurrentConversation((prev) => (prev === id ? null : id));
   };
 
   if (!conversations) {
@@ -62,7 +120,6 @@ const ConversationList = ({
           setSearchTerm={setSearchTerm}
           setAdding={setAdding}
         />
-
         <div className={styles.emptyList}>
           <Ghost size={35} />
           <p>NO CONVERSATIONS AVAILABLE</p>

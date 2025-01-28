@@ -4,8 +4,7 @@ import { useWebSocket } from "../../contexts/WebSocketContext";
 import styles from "./Conversation.module.css";
 
 const Conversation = ({ conversationId }) => {
-  const { user, fetchData } = useWebSocket();
-
+  const { user, fetchData, socket } = useWebSocket();
   const [isLoading, setIsLoading] = useState(true);
   const [conversation, setConversation] = useState(null);
   const [newMessage, setNewMessage] = useState("");
@@ -27,11 +26,37 @@ const Conversation = ({ conversationId }) => {
       }
     };
 
-    if (conversationId) {
-      fetchConversation();
-      console.log(conversation);
-    }
+    if (conversationId) fetchConversation();
   }, [conversationId, fetchData]);
+
+  useEffect(() => {
+    const handleIncomingMessage = (event) => {
+      try {
+        const message = JSON.parse(event.data);
+        if (
+          message.type === "NEW_MESSAGE" &&
+          message.data.conversationId === conversationId
+        ) {
+          setConversation((prev) => ({
+            ...prev,
+            messages: [...prev.messages, message.data.message],
+          }));
+        }
+      } catch (error) {
+        console.error("Error processing WebSocket message:", error);
+      }
+    };
+
+    if (socket && conversationId) {
+      socket.addEventListener("message", handleIncomingMessage);
+    }
+
+    return () => {
+      if (socket) {
+        socket.removeEventListener("message", handleIncomingMessage);
+      }
+    };
+  }, [socket, conversationId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -43,28 +68,21 @@ const Conversation = ({ conversationId }) => {
 
   const formatTimestamp = (dateString) => {
     const date = new Date(dateString);
-    if (isNaN(date)) return "Invalid date";
-
-    return date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    return isNaN(date)
+      ? "Invalid date"
+      : date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
   };
 
   const getConversationTitle = () => {
-    const title = conversation.title;
-    const users = conversation.users;
+    if (!conversation) return "";
+    if (conversation.title) return conversation.title;
 
-    if (!title) {
-      if (users.length === 2) {
-        const notCurrentUser = users.filter((a) => a.id !== user.id);
-        return notCurrentUser[0]?.name || "Unknown";
-      } else {
-        return users.map((u) => u.name).join(", ");
-      }
-    } else {
-      return title;
-    }
+    return conversation.users.length === 2
+      ? conversation.users.find((u) => u.id !== user.id)?.name || "Unknown"
+      : conversation.users.map((u) => u.name).join(", ");
   };
 
   const handleSendMessage = async (e) => {
@@ -72,27 +90,16 @@ const Conversation = ({ conversationId }) => {
     if (!newMessage.trim()) return;
 
     try {
-      const messageData = {
+      await fetchData(`/conversations/${conversationId}/message`, "POST", {
         content: newMessage.trim(),
-      };
-
-      const createdMessage = await fetchData(
-        `/conversations/${conversationId}/message`,
-        "POST",
-        messageData
-      );
-
-      setConversation((prev) => ({
-        ...prev,
-        messages: [...prev.messages, createdMessage],
-      }));
+      });
       setNewMessage("");
     } catch (err) {
       console.error(err);
     }
   };
 
-  if (!conversationId) return <div className={styles.container}></div>;
+  if (!conversationId) return <div className={styles.container} />;
   if (isLoading)
     return <div className={styles.loading}>Loading conversation...</div>;
 
@@ -113,11 +120,15 @@ const Conversation = ({ conversationId }) => {
         ) : (
           conversation.messages.map((message) => {
             const author = conversation.users.find(
-              (user) => user.id === message.authorId
+              (u) => u.id === message.authorId
             );
-
             return (
-              <div key={message.id} className={styles.messageWrapper}>
+              <div
+                key={message.id}
+                className={`${styles.messageWrapper} ${
+                  author.id == user.id && styles.ownMessage
+                }`}
+              >
                 <div className={styles.messageBubble}>
                   <div className={styles.messageHeader}>
                     <span className={styles.author}>
