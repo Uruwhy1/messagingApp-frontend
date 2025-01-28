@@ -171,7 +171,7 @@ const Conversation = ({ conversationId }) => {
 };
 
 Conversation.propTypes = {
-  conversationId: PropTypes.number.isRequired,
+  conversationId: PropTypes.number,
 };
 
 export default Conversation;

@@ -69,6 +69,7 @@ const ConversationList = ({
       if (prev?.some((conv) => conv.id === newConversation.id)) return prev;
       return [newConversation, ...(prev || [])];
     });
+    setAdding(false);
   };
 
   const handleNewMessage = (newMessage) => {
@@ -133,12 +134,7 @@ const ConversationList = ({
       className={styles.conversationsContainer}
       style={adding ? { overflow: "hidden" } : {}}
     >
-      {adding && (
-        <NewConversation
-          setAdding={setAdding}
-          setConversations={setConversations}
-        />
-      )}
+      {adding && <NewConversation setAdding={setAdding} />}
       <ViewTitle
         view={view}
         searchTerm={searchTerm}
@@ -167,7 +163,7 @@ ConversationList.propTypes = {
   adding: PropTypes.bool.isRequired,
   setAdding: PropTypes.func.isRequired,
   setCurrentConversation: PropTypes.func.isRequired,
-  currentConversation: PropTypes.number.isRequired,
+  currentConversation: PropTypes.number,
 };
 
 export default ConversationList;

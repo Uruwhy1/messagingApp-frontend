@@ -10,7 +10,7 @@ import PrimaryButton from "../../../reusable/PrimaryButton";
 
 import ConversationDetailsPrompt from "./ConversationDetailsPrompt";
 
-const NewConversation = ({ setAdding, setConversations }) => {
+const NewConversation = ({ setAdding }) => {
   const { user, fetchData } = useWebSocket();
   const { showPopup } = usePopup();
 
@@ -65,12 +65,11 @@ const NewConversation = ({ setAdding, setConversations }) => {
       setShowDetailsPrompt(true);
     } else {
       try {
-        const response = await fetchData("/conversations/create", "POST", {
+        await fetchData("/conversations/create", "POST", {
           adminId: user.id,
           userIds: [...selectedIds, user.id],
         });
 
-        setConversations((prev) => [response, ...prev]);
         handleExitClick();
       } catch (error) {
         showPopup(error.message, false);
@@ -81,14 +80,13 @@ const NewConversation = ({ setAdding, setConversations }) => {
 
   const handleDetailsSubmit = async (details) => {
     try {
-      const response = await fetchData("/conversations/create", "POST", {
+      await fetchData("/conversations/create", "POST", {
         adminId: user.id,
         userIds: [...selectedIds, user.id],
         name: details.name,
         picture: details.icon,
       });
 
-      setConversations((prev) => [response, ...prev]);
       handleExitClick();
     } catch (error) {
       showPopup(error.message, false);
@@ -136,7 +134,6 @@ const NewConversation = ({ setAdding, setConversations }) => {
 
 NewConversation.propTypes = {
   setAdding: PropTypes.func.isRequired,
-  setConversations: PropTypes.func.isRequired,
 };
 
 export default NewConversation;
