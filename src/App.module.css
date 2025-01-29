@@ -14,6 +14,10 @@
   overflow: hidden;
 }
 
+*:focus-visible {
+  outline: 2px solid var(--accent-light);
+}
+
 @media screen and (max-width: 1000px) {
   .container {
     width: 100vw;
