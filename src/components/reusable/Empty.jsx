@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 const Empty = ({ text }) => {
   return (
     <div className={styles.emptyList}>
-      <Ghost size={35} />
-      <p>{text}</p>
+      <Ghost className={styles.ghostAnimation} size={35} />
+      <p className={styles.textAnimation}>{text}</p>
     </div>
   );
 };

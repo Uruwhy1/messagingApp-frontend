@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useWebSocket } from "../../../contexts/WebSocketContext";
 import PropTypes from "prop-types";
 import styles from "./ConversationsList.module.css";
-import { Ghost } from "lucide-react";
 import GenericItem from "../../reusable/GenericItem";
 import ViewTitle from "../ViewTitle";
 import NewConversation from "./new-chat/NewConversation";
@@ -19,6 +18,7 @@ const ConversationList = ({
   const [conversations, setConversations] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredConversations, setFilteredConversations] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -31,6 +31,8 @@ const ConversationList = ({
         setFilteredConversations(response);
       } catch (error) {
         console.error("Error fetching conversations:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching (whether successful or not)
       }
     };
 
@@ -112,23 +114,6 @@ const ConversationList = ({
     setCurrentConversation((prev) => (prev === id ? null : id));
   };
 
-  if (!conversations) {
-    return (
-      <div className={styles.conversationsContainer}>
-        <ViewTitle
-          view={view}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          setAdding={setAdding}
-        />
-        <div className={styles.emptyList}>
-          <Ghost size={35} />
-          <p>NO CONVERSATIONS AVAILABLE</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div
       className={styles.conversationsContainer}
@@ -141,7 +126,9 @@ const ConversationList = ({
         setSearchTerm={setSearchTerm}
         setAdding={setAdding}
       />
-      {filteredConversations && filteredConversations.length > 0 ? (
+      {loading ? (
+        <Empty text="LOADING CONVERSATIONS..." />
+      ) : filteredConversations && filteredConversations.length > 0 ? (
         filteredConversations.map((element) => (
           <GenericItem
             key={element.id}
@@ -152,7 +139,7 @@ const ConversationList = ({
           />
         ))
       ) : (
-        <Empty text="NO CONVERSATION FOUND" />
+        <Empty text="NO CONVERSATIONS FOUND" />
       )}
     </div>
   );

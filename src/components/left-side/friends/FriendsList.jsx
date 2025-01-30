@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useWebSocket } from "../../../contexts/WebSocketContext";
 import PropTypes from "prop-types";
 import styles from "./FriendsList.module.css";
-import { Ghost } from "lucide-react";
 import GenericItem from "../../reusable/GenericItem";
 import ViewTitle from "../ViewTitle";
 import Empty from "../../reusable/Empty";
@@ -12,6 +11,7 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
   const [friends, setFriends] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredFriends, setFilteredFriends] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getFriends = async () => {
@@ -21,6 +21,8 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
         setFilteredFriends(response.friends);
       } catch (error) {
         console.error("Error fetching friends:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -47,6 +49,7 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
       });
 
       setCurrentConversation(newConversation.id);
+      setView("Chats");
     } catch (error) {
       if (error.toString().includes("Existing conversation")) {
         try {
@@ -61,6 +64,7 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
 
           if (existingConversation) {
             setCurrentConversation(existingConversation.id);
+            setView("Chats");
           } else {
             console.error("Existing conversation not found.");
           }
@@ -73,22 +77,6 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
     }
   };
 
-  if (!friends) {
-    return (
-      <div className={styles.friendsContainer}>
-        <ViewTitle
-          view={view}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-        />
-        <div className={styles.emptyList}>
-          <Ghost size={35} />
-          <p>NO FRIENDS AVAILABLE</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.friendsContainer}>
       <ViewTitle
@@ -96,7 +84,9 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
-      {filteredFriends && filteredFriends.length > 0 ? (
+      {loading ? (
+        <Empty text="LOADING FRIENDS..." />
+      ) : filteredFriends && filteredFriends.length > 0 ? (
         filteredFriends.map((friend) => (
           <GenericItem
             key={friend.id}

@@ -1,5 +1,5 @@
 .emptyList {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   color: gray;
 
   display: flex;
@@ -13,4 +13,54 @@
   font-size: 1.1rem;
   font-weight: 600;
   text-transform: uppercase;
+
+  animation: show 0.5s;
+}
+
+.ghostAnimation {
+  animation: float 3s infinite linear, shadowPass 2s infinite ease-in-out;
+}
+
+.textAnimation {
+  animation: shadowPass 2s infinite ease-in-out;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-30px, -3px);
+  }
+  50% {
+    transform: translate(0, -20px);
+  }
+  75% {
+    transform: translate(30px, -7px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes shadowPass {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(128, 0, 128, 0.7)); /* Purple shadow */
+    color: #ffffff; /* Purple color */
+  }
+  100% {
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+  }
 }
