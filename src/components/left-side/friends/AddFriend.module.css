@@ -1,0 +1,77 @@
+.addFriendContainer {
+  background-color: var(--left-bg);
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.titleContainer {
+  margin-bottom: 1rem;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.exitIcon {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.exitIcon:hover {
+  opacity: 1;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.5rem;
+
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+
+  background-color: var(--options-transparent-bg);
+  color: var(--text-primary);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.resultsContainer {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.userItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sendRequestButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--accent-color);
+  color: white;
+
+  border: none;
+  border-radius: 4px;
+
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sendRequestButton:hover {
+  background-color: var(--accent-color-dark);
+}

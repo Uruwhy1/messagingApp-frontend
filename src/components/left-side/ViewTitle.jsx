@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { MessageSquarePlus } from "lucide-react";
+import { MessageSquarePlus, UserPlus } from "lucide-react";
 import styles from "./ViewTitle.module.css";
 
 const ViewTitle = ({ searchTerm, setSearchTerm, view, setAdding }) => {
@@ -7,11 +7,15 @@ const ViewTitle = ({ searchTerm, setSearchTerm, view, setAdding }) => {
     <div className={styles.topContainer}>
       <div className={styles.titleContainer}>
         <h2>{view}</h2>
-        <MessageSquarePlus onClick={() => setAdding(true)} />
+        {view === "Chats" ? (
+          <MessageSquarePlus onClick={() => setAdding(true)} />
+        ) : (
+          <UserPlus onClick={() => setAdding(true)} />
+        )}
       </div>
       <input
         type="text"
-        placeholder="Search conversations..."
+        placeholder="Search..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className={styles.searchInput}

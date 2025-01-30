@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWebSocket } from "../../../contexts/WebSocketContext";
 import PropTypes from "prop-types";
-import styles from "./ConversationsList.module.css";
 import GenericItem from "../../reusable/GenericItem";
 import ViewTitle from "../ViewTitle";
 import NewConversation from "./new-chat/NewConversation";
@@ -115,10 +114,7 @@ const ConversationList = ({
   };
 
   return (
-    <div
-      className={styles.conversationsContainer}
-      style={adding ? { overflow: "hidden" } : {}}
-    >
+    <div style={adding ? { overflow: "hidden" } : {}}>
       {adding && <NewConversation setAdding={setAdding} />}
       <ViewTitle
         view={view}
