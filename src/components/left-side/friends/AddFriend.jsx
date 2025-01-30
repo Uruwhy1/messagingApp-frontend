@@ -5,7 +5,8 @@ import { useWebSocket } from "../../../contexts/WebSocketContext";
 import { usePopup } from "../../../contexts/PopupContext";
 import GenericItem from "../../reusable/GenericItem";
 import Empty from "../../reusable/Empty";
-import { X } from "lucide-react";
+import { ArrowLeft, X } from "lucide-react";
+import SubViewTitleFull from "../../reusable/SubViewTitleFull";
 
 const AddFriend = ({ setAdding }) => {
   const { user, fetchData } = useWebSocket();
@@ -89,17 +90,11 @@ const AddFriend = ({ setAdding }) => {
       className={`${exiting ? "hide" : "show"} ${styles.addFriendContainer}`}
     >
       <div className={styles.titleContainer}>
-        <div className={styles.title}>
-          <h2>Add Friend</h2>
-          <X onClick={handleExitClick} className={styles.exitIcon} />
-        </div>
-        <input
-          type="text"
-          placeholder="Search users..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className={styles.searchInput}
-          autoFocus
+        <SubViewTitleFull
+          exitFunc={handleExitClick}
+          setSearchTerm={setSearchTerm}
+          searchTerm={searchTerm}
+          view={"Friends"}
         />
       </div>
 
@@ -113,13 +108,11 @@ const AddFriend = ({ setAdding }) => {
         ) : (
           searchResults.map((foundUser) => (
             <div key={foundUser.id} className={styles.userItem}>
-              <GenericItem object={foundUser} type="user" />
-              <button
+              <GenericItem
+                object={foundUser}
+                type="user"
                 onClick={() => handleSendRequest(foundUser.id)}
-                className={styles.sendRequestButton}
-              >
-                Send Request
-              </button>
+              />
             </div>
           ))
         )}

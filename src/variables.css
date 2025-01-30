@@ -2,6 +2,7 @@
   --accent-color: #1bb955;
   --accent-light: #16e261;
   --accent-dark: #1b9c4a;
+  --accent-darker: #066729;
   --accent-menu: var(--accent-color);
 
   --main-radius: 10px;
@@ -27,7 +28,9 @@
 
   --main-bg: #26353e;
   --left-bg: #111b21;
-  --options-bg: var(--main-bg);
+
+  --options-bg: var(--accent-darker);
+  --option-hover: #ffffff31;
 
   --options-transparent-bg: rgba(255, 255, 255, 0.057);
   --options-color: #fff;
@@ -40,6 +43,7 @@
 
   /* --- */
   --picture-default-background: rgb(158, 158, 158);
+  --picture-default-color: #fff;
 
   --conversation-height: 75px;
   --conversation-border: rgba(142, 142, 142, 0.198);
@@ -61,6 +65,10 @@
   --error-text: #dd4540;
   --error-shadow: #de726f;
 
+  --options-bg: var(--accent-dark);
+  --options-color: #fff;
+  --option-hover: #00000031;
+
   --success: #e4f3df;
   --success-text: #628258;
   --success-shadow: #a9e993;
@@ -70,6 +78,7 @@
   --options-transparent-bg: rgba(0, 0, 0, 0.106);
 
   --picture-default-background: rgb(211, 211, 211);
+  --picture-default-color: #000;
 
   --conversation-border: rgba(142, 142, 142, 0.497);
   --conversation-hover: rgba(47, 47, 47, 0.068);

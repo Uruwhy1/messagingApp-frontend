@@ -9,6 +9,7 @@
   width: var(--options-width);
 
   background-color: var(--options-bg);
+  color: var(--options-color);
   flex-shrink: 0;
 
   z-index: 2;
@@ -24,7 +25,6 @@
 
 .themeButton {
   background-color: transparent;
-  color: var(--options-color);
   border: none;
 }
 
@@ -45,17 +45,21 @@
     cursor: pointer;
 
     padding: 0.5rem 0;
+
+    transition: background 0.1s;
     &:hover {
-      background-color: var(--conversation-hover);
+      background-color: var(--option-hover);
     }
   }
 }
 
 /* ------------------------------------*/
 .userStuff {
+  color: var(--picture-default-color);
   position: relative;
 }
 
 .userStuff:hover > div:not(:first-of-type) {
   display: flex;
+  color: var(--options-color);
 }

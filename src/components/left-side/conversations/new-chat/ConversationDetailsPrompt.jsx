@@ -17,8 +17,8 @@ const ConversationDetailsPrompt = ({ onSubmit, onCancel }) => {
   return (
     <div className={styles.backgroundContainer}>
       <div className={styles.title}>
-        <ArrowLeft onClick={onCancel} />
         <SubviewHeading text="New Group" />
+        <ArrowLeft onClick={onCancel} />
       </div>
       <div className={styles.promptContainer}>
         <div className={styles.iconContainer}>

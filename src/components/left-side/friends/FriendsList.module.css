@@ -1,0 +1,55 @@
+.friendRequests {
+  border-radius: var(--radius-big);
+
+  margin: 0.75rem;
+  margin-bottom: 1rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.request {
+  border-radius: var(--radius-big);
+  border: 1px solid var(--conversation-border);
+
+  padding-right: 0.75rem;
+
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+  > div:first-of-type {
+    border: none;
+    cursor: auto;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.requestButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+
+  > button {
+    border: none;
+    border-radius: var(--radius-small);
+
+    cursor: pointer;
+    background-color: transparent;
+    &:hover {
+      background-color: var(--conversation-hover);
+    }
+  }
+
+  .good:hover {
+    color: lightgreen;
+  }
+  .bad:hover {
+    color: lightcoral;
+  }
+}

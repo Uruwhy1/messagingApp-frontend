@@ -22,12 +22,12 @@
 }
 
 .title {
-  padding: 1rem;
+  padding: 0.75rem;
 
   width: 100%;
 
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   gap: 1rem;
 

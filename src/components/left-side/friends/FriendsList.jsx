@@ -5,6 +5,8 @@ import GenericItem from "../../reusable/GenericItem";
 import ViewTitle from "../ViewTitle";
 import Empty from "../../reusable/Empty";
 import AddFriend from "./AddFriend";
+import styles from "./FriendsList.module.css";
+import { UserCheck2, UserMinus2 } from "lucide-react";
 
 const FriendsList = ({ view, setView, setCurrentConversation }) => {
   const { user, fetchData } = useWebSocket();
@@ -146,17 +148,22 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
         setAdding={setAdding}
       />
       {friendRequests.length > 0 && (
-        <div>
-          <h2>Friend Requests</h2>
+        <div className={styles.friendRequests}>
           {friendRequests.map((request) => (
-            <div key={request.id}>
+            <div className={styles.request} key={request.id}>
               <GenericItem object={request.sender} type="user" />
-              <div>
-                <button onClick={() => handleAcceptRequest(request.id)}>
-                  Accept
+              <div className={styles.requestButtons}>
+                <button
+                  className={styles.good}
+                  onClick={() => handleAcceptRequest(request.id)}
+                >
+                  <UserCheck2 />
                 </button>
-                <button onClick={() => handleRejectRequest(request.id)}>
-                  Reject
+                <button
+                  className={styles.bad}
+                  onClick={() => handleRejectRequest(request.id)}
+                >
+                  <UserMinus2 />
                 </button>
               </div>
             </div>

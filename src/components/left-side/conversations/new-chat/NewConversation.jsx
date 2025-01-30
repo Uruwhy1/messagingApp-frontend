@@ -4,11 +4,12 @@ import styles from "./NewConversation.module.css";
 import { useWebSocket } from "../../../../contexts/WebSocketContext";
 import { usePopup } from "../../../../contexts/PopupContext";
 import GenericItem from "../../../reusable/GenericItem";
-import NewConversationTitle from "./NewConversationTitle";
 import Empty from "../../../reusable/Empty";
 import PrimaryButton from "../../../reusable/PrimaryButton";
 
 import ConversationDetailsPrompt from "./ConversationDetailsPrompt";
+import ViewTitle from "../../ViewTitle";
+import SubViewTitleFull from "../../../reusable/SubViewTitleFull";
 
 const NewConversation = ({ setAdding }) => {
   const { user, fetchData } = useWebSocket();
@@ -107,7 +108,7 @@ const NewConversation = ({ setAdding }) => {
         />
       ) : (
         <>
-          <NewConversationTitle
+          <SubViewTitleFull
             exitFunc={handleExitClick}
             setSearchTerm={setSearchTerm}
             searchTerm={searchTerm}
