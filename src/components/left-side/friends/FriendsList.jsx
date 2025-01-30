@@ -9,7 +9,7 @@ import styles from "./FriendsList.module.css";
 import { UserCheck2, UserMinus2 } from "lucide-react";
 
 const FriendsList = ({ view, setView, setCurrentConversation }) => {
-  const { user, fetchData } = useWebSocket();
+  const { user, socket, fetchData } = useWebSocket();
   const [friends, setFriends] = useState(null);
   const [friendRequests, setFriendRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -61,6 +61,42 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
       );
     }
   }, [searchTerm, friends]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNewFriendRequest = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === "NEW_FRIEND_REQUEST") {
+        setFriendRequests((prev) => [...prev, data.data]);
+      } else if (data.type === "FRIEND_REQUEST_ACCEPTED") {
+        setFriends((prev) => {
+          const newFriend =
+            data.data.senderId === user.id
+              ? data.data.receiver
+              : data.data.sender;
+          return [...prev, newFriend];
+        });
+        setFriendRequests((prev) =>
+          prev.filter(
+            (req) =>
+              req.senderId !== data.data.senderId ||
+              req.receiverId !== data.data.receiverId
+          )
+        );
+      } else if (data.type === "FRIEND_REQUEST_REJECTED") {
+        setFriendRequests((prev) =>
+          prev.filter((req) => req.id !== data.data.requestId)
+        );
+      }
+    };
+
+    socket.addEventListener("message", handleNewFriendRequest);
+
+    return () => {
+      socket.removeEventListener("message", handleNewFriendRequest);
+    };
+  }, [socket, user.id]);
 
   const handleFriendClick = async (friendId) => {
     try {
