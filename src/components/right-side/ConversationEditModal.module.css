@@ -1,0 +1,230 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+
+.modal {
+  background-color: var(--main-bg);
+  color: var(--font-color);
+
+  padding: 1rem;
+  border-radius: var(--main-radius);
+
+  width: min(60%, 700px);
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  margin: 0.25rem 0;
+  margin-top: 0;
+
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--font-color);
+
+  border-bottom: 2px solid var(--accent-light);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+
+  border-radius: var(--radius-small);
+  border: 1px solid var(--conversation-border);
+  padding: 0.75rem;
+}
+
+.label {
+  display: block;
+  margin-top: 0.5rem;
+
+  font-size: 0.875rem;
+  color: var(--font-color);
+}
+
+.inputGroup {
+  display: flex;
+}
+
+.input,
+.friendsDropdown {
+  flex-grow: 1;
+
+  background-color: var(--left-bg);
+  padding: 8px;
+
+  border: 1px solid var(--conversation-border);
+  border-radius: var(--radius-small);
+
+  margin-right: 0.5rem;
+  color: var(--font-color);
+
+  &:focus {
+    border-color: transparent;
+  }
+}
+
+.updateButton,
+.addButton {
+  padding: 8px 16px;
+  width: 6rem;
+  border: none;
+
+  border-radius: var(--radius-small);
+  font-weight: 600;
+  color: var(--primary-button-color);
+  cursor: pointer;
+}
+
+.updateButton {
+  background-color: rgb(76, 171, 203);
+}
+
+.addButton {
+  background-color: var(--accent-color);
+}
+
+.participantsList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.participant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 6px 0;
+  border-bottom: 1px solid var(--conversation-border);
+  color: var(--font-color);
+}
+
+.currentUser {
+  font-weight: bold;
+}
+
+.adminTag {
+  background-color: var(--options-transparent-bg);
+  color: var(--accent-color);
+  font-size: 0.75rem;
+
+  padding: 2px 6px;
+  border-radius: 12px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.closeButton {
+  background-color: var(--options-transparent-bg);
+  color: var(--font-color);
+
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-small);
+  border: none;
+
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background-color: var(--option-hover);
+}
+
+.updateButton:hover,
+.addButton:hover {
+  opacity: 0.9;
+}
+
+.friendsSection {
+  position: relative;
+
+  > div {
+    width: 100%;
+    height: auto;
+    display: flex;
+  }
+}
+
+.friendsDropdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: var(--radius-small);
+
+  position: relative;
+  cursor: pointer;
+}
+
+.friendsList {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+
+  overflow-y: auto;
+
+  border-radius: var(--radius-small);
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.friendItem {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.friendItem:hover {
+  background-color: #f0f0f0;
+}
+
+.friendItem.selected {
+  background-color: #e0e0e0;
+}
+
+.selectedFriends {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+
+  margin-top: 10px;
+}
+
+.selectedFriend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  padding: 5px;
+}
+
+.selectedFriend svg {
+  cursor: pointer;
+}
+
+.noFriends {
+  padding: 8px;
+  color: #888;
+  text-align: center;
+}

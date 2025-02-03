@@ -2,12 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useWebSocket } from "../../contexts/WebSocketContext";
 import styles from "./Conversation.module.css";
+import ConversationEditModal from "./ConversationEditModal";
 
 const Conversation = ({ conversationId }) => {
   const { user, fetchData, socket } = useWebSocket();
   const [isLoading, setIsLoading] = useState(true);
   const [conversation, setConversation] = useState(null);
   const [newMessage, setNewMessage] = useState("");
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -28,6 +30,15 @@ const Conversation = ({ conversationId }) => {
 
     if (conversationId) fetchConversation();
   }, [conversationId, fetchData]);
+
+  const handleRefreshConversation = async () => {
+    try {
+      const data = await fetchData(`/conversations/${conversationId}`, "GET");
+      setConversation(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     const handleIncomingMessage = (event) => {
@@ -106,13 +117,26 @@ const Conversation = ({ conversationId }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.headerInfo}>
+        <div
+          className={styles.headerInfo}
+          onClick={() => setIsEditModalOpen(true)}
+          style={{ cursor: "pointer" }}
+        >
           <h2 className={styles.title}>{getConversationTitle()}</h2>
           <div className={styles.participants}>
             {conversation.users.length} participants
           </div>
         </div>
       </div>
+
+      {conversation && (
+        <ConversationEditModal
+          conversation={conversation}
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          onUpdateConversation={handleRefreshConversation}
+        />
+      )}
 
       <div className={styles.messagesContainer}>
         {conversation.messages.length === 0 ? (

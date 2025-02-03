@@ -31,7 +31,7 @@ const ConversationList = ({
       } catch (error) {
         console.error("Error fetching conversations:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetching (whether successful or not)
+        setLoading(false);
       }
     };
 
@@ -48,6 +48,9 @@ const ConversationList = ({
           break;
         case "NEW_MESSAGE":
           handleNewMessage(message.data);
+          break;
+        case "CONVERSATION_NAME_UPDATED":
+          handleConversationNameUpdate(message.data);
           break;
         default:
           break;
@@ -96,6 +99,18 @@ const ConversationList = ({
           return conv;
         })
         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    });
+  };
+
+  const handleConversationNameUpdate = (updatedConversation) => {
+    setConversations((prev) => {
+      if (!prev) return prev;
+
+      return prev.map((conv) => 
+        conv.id === updatedConversation.id 
+          ? { ...conv, title: updatedConversation.title } 
+          : conv
+      ).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
     });
   };
 

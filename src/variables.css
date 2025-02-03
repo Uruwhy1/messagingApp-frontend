@@ -13,6 +13,10 @@
 
   /* --- */
 
+  --success: #272727;
+  --success-text: var(--accent-light);
+  --success-shadow: var(--accent-light);
+
   --error: #272727;
   --error-text: #eb9895;
   --error-shadow: #de7a76;
@@ -61,6 +65,10 @@
   --left-bg: #ffffff;
   --main-bg: #f0f2f5;
 
+  --success: rgb(255, 255, 255);
+  --success-text: var(--accent-color);
+  --success-shadow: var(--accent-color);
+
   --error: rgb(255, 255, 255);
   --error-text: #dd4540;
   --error-shadow: #de726f;
@@ -68,10 +76,6 @@
   --options-bg: var(--accent-dark);
   --options-color: #fff;
   --option-hover: #00000031;
-
-  --success: #e4f3df;
-  --success-text: #628258;
-  --success-shadow: #a9e993;
 
   --font-color: #000;
 
