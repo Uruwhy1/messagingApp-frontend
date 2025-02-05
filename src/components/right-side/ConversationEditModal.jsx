@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useWebSocket } from "../../contexts/WebSocketContext";
 import styles from "./ConversationEditModal.module.css";
 import { usePopup } from "../../contexts/PopupContext";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown, X, UserMinus } from "lucide-react";
 
 const ConversationEditModal = ({
   conversation,
@@ -18,6 +18,7 @@ const ConversationEditModal = ({
   const [friends, setFriends] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [friendsDropdownOpen, setFriendsDropdownOpen] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
   const { showPopup } = usePopup();
 
   const isAdmin =
@@ -80,8 +81,27 @@ const ConversationEditModal = ({
       onUpdateConversation();
       setSelectedFriends([]);
       setFriendsDropdownOpen(false);
+      showPopup("Users added successfully!", true);
     } catch (err) {
       showPopup(err.message || "Failed to add users.", false);
+    }
+  };
+
+  const handleRemoveUser = async (userId) => {
+    if (!isAdmin || isRemoving) return;
+
+    setIsRemoving(true);
+    try {
+      await fetchData(
+        `/conversations/${conversation.id}/users/${userId}`,
+        "DELETE"
+      );
+      onUpdateConversation();
+      showPopup("User removed successfully!", true);
+    } catch (err) {
+      showPopup(err.message || "Failed to remove user.", false);
+    } finally {
+      setIsRemoving(false);
     }
   };
 
@@ -200,6 +220,16 @@ const ConversationEditModal = ({
                 {participant.name}
                 {participant.id === conversation.adminId && (
                   <span className={styles.adminTag}>Admin</span>
+                )}
+                {isAdmin && participant.id !== conversation.adminId && (
+                  <button
+                    onClick={() => handleRemoveUser(participant.id)}
+                    disabled={isRemoving}
+                    className={styles.removeUserButton}
+                    title="Remove user"
+                  >
+                    <UserMinus size={18} />
+                  </button>
                 )}
               </li>
             ))}
