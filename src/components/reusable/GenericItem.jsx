@@ -4,7 +4,7 @@ import UserPicture from "./UserPicture";
 import ConversationTitle from "../left-side/conversations/ConversationTitle";
 import { useWebSocket } from "../../contexts/WebSocketContext";
 
-const GenericItem = ({ object, type, onClick, isSelected }) => {
+const GenericItem = ({ object, type, onClick, isSelected, actionButton }) => {
   const { user } = useWebSocket();
 
   const formatDate = (dateString) => {
@@ -110,6 +110,7 @@ const GenericItem = ({ object, type, onClick, isSelected }) => {
           </p>
         )}
       </div>
+      {actionButton && <div className={styles.itemAction}>{actionButton}</div>}
     </div>
   );
 };
@@ -119,6 +120,7 @@ GenericItem.propTypes = {
   type: PropTypes.oneOf(["conversation", "user"]).isRequired,
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  actionButton: PropTypes.node,
 };
 
 export default GenericItem;

@@ -84,6 +84,6 @@
   --picture-default-background: rgb(211, 211, 211);
   --picture-default-color: #000;
 
-  --conversation-border: rgba(142, 142, 142, 0.497);
+  --conversation-border: rgba(142, 142, 142, 0.158);
   --conversation-hover: rgba(47, 47, 47, 0.068);
 }

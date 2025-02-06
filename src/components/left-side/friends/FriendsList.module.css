@@ -53,3 +53,24 @@
     color: lightcoral;
   }
 }
+
+.removeButton {
+  border: none;
+  border-radius: var(--radius-small);
+  padding: 0.5rem;
+
+  margin-right: 0.75rem;
+
+  cursor: pointer;
+  background-color: transparent;
+  color: inherit;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: var(--conversation-border);
+    color: var(--error-shadow);
+  }
+}

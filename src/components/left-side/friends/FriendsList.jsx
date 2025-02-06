@@ -7,6 +7,7 @@ import Empty from "../../reusable/Empty";
 import AddFriend from "./AddFriend";
 import styles from "./FriendsList.module.css";
 import { UserCheck2, UserMinus2 } from "lucide-react";
+import { UserMinus } from "lucide-react";
 
 const FriendsList = ({ view, setView, setCurrentConversation }) => {
   const { user, socket, fetchData } = useWebSocket();
@@ -88,6 +89,19 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
         setFriendRequests((prev) =>
           prev.filter((req) => req.id !== data.data.requestId)
         );
+      } else if (data.type === "FRIEND_REMOVED") {
+        if (data.data.userId === user.id || data.data.friendId === user.id) {
+          const removedId =
+            data.data.userId === user.id
+              ? data.data.friendId
+              : data.data.userId;
+          setFriends((prev) =>
+            prev.filter((friend) => friend.id !== removedId)
+          );
+          setFilteredFriends((prev) =>
+            prev.filter((friend) => friend.id !== removedId)
+          );
+        }
       }
     };
 
@@ -174,6 +188,19 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
     }
   };
 
+  const handleRemoveFriend = async (friendId, e) => {
+    e.stopPropagation();
+    try {
+      await fetchData("/friends/remove", "POST", { friendId });
+      setFriends((prev) => prev.filter((friend) => friend.id !== friendId));
+      setFilteredFriends((prev) =>
+        prev.filter((friend) => friend.id !== friendId)
+      );
+    } catch (error) {
+      console.error("Error removing friend:", error);
+    }
+  };
+
   return (
     <div>
       {adding && <AddFriend setAdding={setAdding} />}
@@ -216,6 +243,16 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
             object={friend}
             type="user"
             onClick={() => handleFriendClick(friend.id)}
+            isSelected={false}
+            actionButton={
+              <button
+                className={styles.removeButton}
+                onClick={(e) => handleRemoveFriend(friend.id, e)}
+                title="Remove friend"
+              >
+                <UserMinus size={22} />
+              </button>
+            }
           />
         ))
       ) : (
