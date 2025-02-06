@@ -1,7 +1,7 @@
 .item {
   height: var(--conversation-height);
   width: 100%;
-  max-width: calc(var(--left-width) - var(--options-width));
+  max-width: calc(var(--left-width) - var(--options-width) + 5px);
 
   border-bottom: 1px solid var(--conversation-border);
 
@@ -9,6 +9,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  overflow: visible;
+  position: relative;
 
   cursor: pointer;
   transition: background 0.05s linear;
@@ -80,4 +83,20 @@
 .selectedConver,
 .selectedConver:hover {
   background-color: var(--card-selected);
+}
+
+.item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 1rem;
+  height: 1rem;
+}
+.online::after {
+  background-color: var(--accent-light);
+}
+.offline::after {
+  background-color: var(--error-text);
 }

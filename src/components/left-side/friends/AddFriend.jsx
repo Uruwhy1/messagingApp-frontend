@@ -5,10 +5,9 @@ import { useWebSocket } from "../../../contexts/WebSocketContext";
 import { usePopup } from "../../../contexts/PopupContext";
 import GenericItem from "../../reusable/GenericItem";
 import Empty from "../../reusable/Empty";
-import { ArrowLeft, X } from "lucide-react";
 import SubViewTitleFull from "../../reusable/SubViewTitleFull";
 
-const AddFriend = ({ setAdding }) => {
+const AddFriend = ({ setAdding, onlineUsers }) => {
   const { user, fetchData } = useWebSocket();
   const { showPopup } = usePopup();
   const [searchResults, setSearchResults] = useState([]);
@@ -112,6 +111,7 @@ const AddFriend = ({ setAdding }) => {
                 object={foundUser}
                 type="user"
                 onClick={() => handleSendRequest(foundUser.id)}
+                status={onlineUsers.has(foundUser.id.toString())}
               />
             </div>
           ))
@@ -123,6 +123,7 @@ const AddFriend = ({ setAdding }) => {
 
 AddFriend.propTypes = {
   setAdding: PropTypes.func.isRequired,
+  onlineUsers: PropTypes.array.isRequired,
 };
 
 export default AddFriend;

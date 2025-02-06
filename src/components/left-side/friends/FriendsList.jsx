@@ -6,8 +6,7 @@ import ViewTitle from "../ViewTitle";
 import Empty from "../../reusable/Empty";
 import AddFriend from "./AddFriend";
 import styles from "./FriendsList.module.css";
-import { UserCheck2, UserMinus2 } from "lucide-react";
-import { UserMinus } from "lucide-react";
+import { UserCheck2, UserMinus2, UserMinus } from "lucide-react";
 
 const FriendsList = ({ view, setView, setCurrentConversation }) => {
   const { user, socket, fetchData } = useWebSocket();
@@ -17,6 +16,7 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
   const [filteredFriends, setFilteredFriends] = useState(null);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
+  const [onlineUsers, setOnlineUsers] = useState(new Set());
 
   useEffect(() => {
     const getFriends = async () => {
@@ -64,51 +64,81 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
   }, [searchTerm, friends]);
 
   useEffect(() => {
+    const fetchOnlineUsers = async () => {
+      const response = await fetchData("/users/online", "GET");
+      setOnlineUsers(new Set(response.onlineUsers));
+    };
+    fetchOnlineUsers();
+  }, [fetchData]);
+
+  useEffect(() => {
     if (!socket) return;
 
-    const handleNewFriendRequest = (event) => {
+    const handleWebSocketMessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type === "NEW_FRIEND_REQUEST") {
-        setFriendRequests((prev) => [...prev, data.data]);
-      } else if (data.type === "FRIEND_REQUEST_ACCEPTED") {
-        setFriends((prev) => {
-          const newFriend =
-            data.data.senderId === user.id
-              ? data.data.receiver
-              : data.data.sender;
-          return [...prev, newFriend];
-        });
-        setFriendRequests((prev) =>
-          prev.filter(
-            (req) =>
-              req.senderId !== data.data.senderId ||
-              req.receiverId !== data.data.receiverId
-          )
-        );
-      } else if (data.type === "FRIEND_REQUEST_REJECTED") {
-        setFriendRequests((prev) =>
-          prev.filter((req) => req.id !== data.data.requestId)
-        );
-      } else if (data.type === "FRIEND_REMOVED") {
-        if (data.data.userId === user.id || data.data.friendId === user.id) {
-          const removedId =
-            data.data.userId === user.id
-              ? data.data.friendId
-              : data.data.userId;
-          setFriends((prev) =>
-            prev.filter((friend) => friend.id !== removedId)
+
+      switch (data.type) {
+        case "INITIAL_STATUS":
+          setOnlineUsers(new Set(data.data.onlineUsers));
+          break;
+        case "USER_STATUS_CHANGE":
+          setOnlineUsers((prev) => {
+            const newSet = new Set(prev);
+            if (data.data.status === "online") {
+              newSet.add(data.data.userId);
+            } else {
+              newSet.delete(data.data.userId);
+            }
+            return newSet;
+          });
+          break;
+        case "NEW_FRIEND_REQUEST":
+          setFriendRequests((prev) => [...prev, data.data]);
+          break;
+        case "FRIEND_REQUEST_ACCEPTED":
+          setFriends((prev) => {
+            const newFriend =
+              data.data.senderId === user.id
+                ? data.data.receiver
+                : data.data.sender;
+            return [...prev, newFriend];
+          });
+          setFriendRequests((prev) =>
+            prev.filter(
+              (req) =>
+                req.senderId !== data.data.senderId ||
+                req.receiverId !== data.data.receiverId
+            )
           );
-          setFilteredFriends((prev) =>
-            prev.filter((friend) => friend.id !== removedId)
+          break;
+        case "FRIEND_REQUEST_REJECTED":
+          setFriendRequests((prev) =>
+            prev.filter((req) => req.id !== data.data.requestId)
           );
-        }
+          break;
+        case "FRIEND_REMOVED":
+          if (data.data.userId === user.id || data.data.friendId === user.id) {
+            const removedId =
+              data.data.userId === user.id
+                ? data.data.friendId
+                : data.data.userId;
+            setFriends((prev) =>
+              prev.filter((friend) => friend.id !== removedId)
+            );
+            setFilteredFriends((prev) =>
+              prev.filter((friend) => friend.id !== removedId)
+            );
+          }
+          break;
+        default:
+          break;
       }
     };
 
-    socket.addEventListener("message", handleNewFriendRequest);
+    socket.addEventListener("message", handleWebSocketMessage);
 
     return () => {
-      socket.removeEventListener("message", handleNewFriendRequest);
+      socket.removeEventListener("message", handleWebSocketMessage);
     };
   }, [socket, user.id]);
 
@@ -203,7 +233,7 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
 
   return (
     <div>
-      {adding && <AddFriend setAdding={setAdding} />}
+      {adding && <AddFriend setAdding={setAdding} onlineUsers={onlineUsers} />}
       <ViewTitle
         view={view}
         searchTerm={searchTerm}
@@ -244,6 +274,7 @@ const FriendsList = ({ view, setView, setCurrentConversation }) => {
             type="user"
             onClick={() => handleFriendClick(friend.id)}
             isSelected={false}
+            status={onlineUsers.has(friend.id.toString())}
             actionButton={
               <button
                 className={styles.removeButton}

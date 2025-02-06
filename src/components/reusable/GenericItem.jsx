@@ -4,7 +4,14 @@ import UserPicture from "./UserPicture";
 import ConversationTitle from "../left-side/conversations/ConversationTitle";
 import { useWebSocket } from "../../contexts/WebSocketContext";
 
-const GenericItem = ({ object, type, onClick, isSelected, actionButton }) => {
+const GenericItem = ({
+  object,
+  type,
+  onClick,
+  isSelected,
+  actionButton,
+  status,
+}) => {
   const { user } = useWebSocket();
 
   const formatDate = (dateString) => {
@@ -73,7 +80,7 @@ const GenericItem = ({ object, type, onClick, isSelected, actionButton }) => {
             ? styles.selectedUser
             : styles.selectedConver
           : ""
-      }`}
+      } ${type === "user" ? (status ? styles.online : styles.offline) : ""} `}
     >
       <div className={styles.itemPicture}>
         <UserPicture user={{ picture: converPicture }} />
@@ -121,6 +128,7 @@ GenericItem.propTypes = {
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
   actionButton: PropTypes.node,
+  status: PropTypes.bool,
 };
 
 export default GenericItem;
