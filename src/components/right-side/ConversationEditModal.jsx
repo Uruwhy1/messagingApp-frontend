@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useWebSocket } from "../../contexts/WebSocketContext";
 import styles from "./ConversationEditModal.module.css";
 import { usePopup } from "../../contexts/PopupContext";
-import { ChevronDown, X, UserMinus } from "lucide-react";
+import { ChevronDown, X, UserMinus, Image } from "lucide-react";
 
 const ConversationEditModal = ({
   conversation,
@@ -14,6 +14,9 @@ const ConversationEditModal = ({
   const { fetchData, user } = useWebSocket();
   const [conversationName, setConversationName] = useState(
     conversation.title || ""
+  );
+  const [conversationPicture, setConversationPicture] = useState(
+    conversation.picture || ""
   );
   const [friends, setFriends] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
@@ -63,6 +66,18 @@ const ConversationEditModal = ({
       showPopup("Conversation name updated!", true);
     } catch (err) {
       showPopup(err.message || "Failed to update conversation name.", false);
+    }
+  };
+
+  const handlePictureUpdate = async () => {
+    try {
+      await fetchData(`/conversations/${conversation.id}/picture`, "PATCH", {
+        picture: conversationPicture.trim(),
+      });
+      onUpdateConversation();
+      showPopup("Conversation picture updated!", true);
+    } catch (err) {
+      showPopup(err.message || "Failed to update conversation picture.", false);
     }
   };
 
@@ -138,6 +153,23 @@ const ConversationEditModal = ({
               <button
                 onClick={handleNameUpdate}
                 className={styles.updateButton}
+              >
+                Update
+              </button>
+            </div>
+
+            <label className={styles.label}>Conversation Picture URL</label>
+            <div className={styles.inputGroup}>
+              <input
+                type="text"
+                value={conversationPicture}
+                onChange={(e) => setConversationPicture(e.target.value)}
+                className={styles.input}
+                placeholder="Enter picture URL"
+              />
+              <button
+                onClick={handlePictureUpdate}
+                className={`${styles.updateButton} ${styles.pictureButton}`}
               >
                 Update
               </button>
@@ -250,6 +282,7 @@ ConversationEditModal.propTypes = {
   conversation: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string,
+    picture: PropTypes.string,
     users: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
